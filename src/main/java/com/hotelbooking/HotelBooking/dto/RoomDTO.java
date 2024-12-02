@@ -16,4 +16,5 @@ public class RoomDTO {
     private String roomPhotoUrl;
     private String roomDescription;
     private List<BookingDTO> bookings;
+
 }
