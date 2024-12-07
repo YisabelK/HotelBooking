@@ -195,6 +195,9 @@ public class RoomService implements IRoomService {
             response.setRoomList(roomDTOList);
 
 
+        } catch (OurException e) {
+            response.setStatusCode(404);
+            response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error saving a room " + e.getMessage());
