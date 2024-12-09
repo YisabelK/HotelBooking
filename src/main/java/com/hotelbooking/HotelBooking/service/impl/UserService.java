@@ -38,7 +38,7 @@ public class UserService implements IUserService {
             if(userRepository.existsByEmail(user.getEmail())){
                 throw new OurException(user.getEmail() + "Already Exists");
             }
-            user.setPasswort(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             User savedUser = userRepository.save(user);
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(savedUser);
             response.setStatusCode(200);
@@ -164,7 +164,11 @@ public class UserService implements IUserService {
 
         try {
             User user = userRepository.findByEmail(email).orElseThrow(() -> new OurException("User Not Found"));
-            UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
+            UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingAndRoom(user);
+
+            response.setPastBookings(userDTO.getPastBookings());
+            response.setUpcomingBookings(userDTO.getUpcomingBookings());
+
             response.setStatusCode(200);
             response.setMessage("successful");
             response.setUser(userDTO);
@@ -174,7 +178,7 @@ public class UserService implements IUserService {
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Error getting all users " + e.getMessage());
+            response.setMessage("Error getting user info: " + e.getMessage());
         }
         return response;
     }

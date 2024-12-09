@@ -2,6 +2,7 @@ package com.hotelbooking.HotelBooking.utils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +19,11 @@ public class JWTUtils {
 
     private static final  long EXPIRATION_TIME = 1000 * 60 * 24 * 7;
 
-    private final SecretKey Key;
+    private static final String SECRET_KEY = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+    private final SecretKey key;
 
-    public JWTUtils(){
-        String secretString = "abcdefg";
-        byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
-        this.Key = new SecretKeySpec(keyBytes, "HmacSHA256");
+    public JWTUtils() {
+        this.key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(UserDetails userDetails){
@@ -31,7 +31,7 @@ public class JWTUtils {
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(Key)
+                .signWith(key)
                 .compact();
     }
 
@@ -39,7 +39,7 @@ public class JWTUtils {
         return extractClaims(token, Claims::getSubject);
     }
     private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction){
-        return claimsTFunction.apply(Jwts.parser().verifyWith(Key).build().parseSignedClaims(token).getPayload());
+        return claimsTFunction.apply(Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload());
     }
     public boolean isValidToken(String token, UserDetails userDetails){
         final String username = extractUsername(token);

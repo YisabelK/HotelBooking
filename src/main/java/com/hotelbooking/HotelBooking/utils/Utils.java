@@ -8,6 +8,7 @@ import com.hotelbooking.HotelBooking.entity.Room;
 import com.hotelbooking.HotelBooking.entity.User;
 
 import java.security.SecureRandom;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,7 @@ public class Utils {
 
 
 
-    public static UserDTO mapUserEntityToUserDTOPlusUserBookingAndRoom (User user){
+    public static UserDTO mapUserEntityToUserDTOPlusUserBookingAndRoom(User user) {
         UserDTO userDTO = new UserDTO();
 
         userDTO.setId(user.getId());
@@ -87,8 +88,22 @@ public class Utils {
         userDTO.setEmail(user.getEmail());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setRole(user.getRole());
-        if(!user.getBookings().isEmpty()){
-            userDTO.setBookings(user.getBookings().stream().map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false)).collect(Collectors.toList()));
+
+        if (!user.getBookings().isEmpty()) {
+            LocalDate today = LocalDate.now();
+
+            List<BookingDTO> pastBookings = user.getBookings().stream()
+                    .filter(booking -> booking.getCheckOutDate().isBefore(today))
+                    .map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false))
+                    .collect(Collectors.toList());
+
+            List<BookingDTO> upcomingBookings = user.getBookings().stream()
+                    .filter(booking -> !booking.getCheckOutDate().isBefore(today))
+                    .map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false))
+                    .collect(Collectors.toList());
+
+            userDTO.setPastBookings(pastBookings);
+            userDTO.setUpcomingBookings(upcomingBookings);
         }
 
         return userDTO;
