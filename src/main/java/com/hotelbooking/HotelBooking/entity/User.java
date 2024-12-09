@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -28,7 +29,20 @@ public class User implements UserDetails {
     private String phoneNumber;
     @NotBlank(message = "Password is required")
     private String password;
+    @NotBlank(message = "Password confirmation is required")
+    @Transient
+    private String passwordConfirm;
     private String role;
+    private String streetName;
+    private String houseNumber;
+    private String postalCode;
+    private String city;
+    private String state;
+    private String country;
+    @Column(name = "birth_date")
+    private LocalDate birthDate;
+    @Column(length = 10)
+    private String gender;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 

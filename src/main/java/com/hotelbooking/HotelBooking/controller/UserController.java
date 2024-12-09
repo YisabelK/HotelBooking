@@ -2,6 +2,7 @@ package com.hotelbooking.HotelBooking.controller;
 
 
 import com.hotelbooking.HotelBooking.dto.Response;
+import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.service.interfac.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,15 @@ public class UserController {
         Response response = userService.deleteUser(userId);
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
+    @PutMapping("/update-profile")
+    public ResponseEntity<Response> updateProfile(@RequestBody User userRequest) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        Response response = userService.updateProfile(email, userRequest);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
 
 
     @GetMapping("/get-logged-in-profile-info")

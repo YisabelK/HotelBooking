@@ -12,6 +12,7 @@ public interface IUserService {
     Response deleteUser(String userId);
     Response getUserById(String userId);
     Response getMyInfo(String email);
+    Response updateProfile(String email, User userRequest);
 
 
 }

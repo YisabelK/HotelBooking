@@ -182,4 +182,66 @@ public class UserService implements IUserService {
         }
         return response;
     }
+
+    @Override
+    public Response updateProfile(String email, User userRequest) {
+        Response response = new Response();
+        try {
+            User existingUser = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new OurException("User Not Found"));
+
+            if (userRequest.getName() != null && !userRequest.getName().isEmpty()) {
+                existingUser.setName(userRequest.getName());
+            }
+            if (userRequest.getPhoneNumber() != null && !userRequest.getPhoneNumber().isEmpty()) {
+                existingUser.setPhoneNumber(userRequest.getPhoneNumber());
+            }
+            if (userRequest.getStreetName() != null && !userRequest.getStreetName().isEmpty()) {
+                existingUser.setStreetName(userRequest.getStreetName());
+            }
+            if (userRequest.getHouseNumber() != null && !userRequest.getHouseNumber().isEmpty()) {
+                existingUser.setHouseNumber(userRequest.getHouseNumber());
+            }
+            if (userRequest.getPostalCode() != null && !userRequest.getPostalCode().isEmpty()) {
+                existingUser.setPostalCode(userRequest.getPostalCode());
+            }
+            if (userRequest.getCity() != null && !userRequest.getCity().isEmpty()) {
+                existingUser.setCity(userRequest.getCity());
+            }
+            if (userRequest.getState() != null && !userRequest.getState().isEmpty()) {
+                existingUser.setState(userRequest.getState());
+            }
+            if (userRequest.getCountry() != null && !userRequest.getCountry().isEmpty()) {
+                existingUser.setCountry(userRequest.getCountry());
+            }
+            if (userRequest.getBirthDate() != null) {
+                existingUser.setBirthDate(userRequest.getBirthDate());
+            }
+            if (userRequest.getGender() != null && !userRequest.getGender().isEmpty()) {
+                existingUser.setGender(userRequest.getGender());
+            }
+            if (userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()
+                    && !userRequest.getEmail().equals(existingUser.getEmail())) {
+                if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
+                    throw new OurException("Email already exists");
+                }
+                existingUser.setEmail(userRequest.getEmail());
+            }
+
+            User updatedUser = userRepository.save(existingUser);
+            UserDTO userDTO = Utils.mapUserEntityToUserDTO(updatedUser);
+
+            response.setStatusCode(200);
+            response.setMessage("Profile updated successfully");
+            response.setUser(userDTO);
+
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error updating profile: " + e.getMessage());
+        }
+        return response;
+    }
 }

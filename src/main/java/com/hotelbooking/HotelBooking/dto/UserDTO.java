@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.hotelbooking.HotelBooking.entity.Booking;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,17 @@ public class UserDTO {
     private String name;
     private String phoneNumber;
     private String role;
+    
+    // Detailed address fields
+    private String streetName;
+    private String houseNumber;
+    private String postalCode;
+    private String city;
+    private String state;
+    private String country;
+    
+    private LocalDate birthDate;
+    private String gender;
     private List<BookingDTO> pastBookings = new ArrayList<>();
     private List<BookingDTO> upcomingBookings = new ArrayList<>();
 }
