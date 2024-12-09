@@ -2,10 +2,12 @@ package com.hotelbooking.HotelBooking.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.hotelbooking.HotelBooking.entity.IValidationGroups;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,19 +31,23 @@ public class User implements UserDetails {
     private String phoneNumber;
     @NotBlank(message = "Password is required")
     private String password;
-    @NotBlank(message = "Password confirmation is required")
+    @NotBlank(message = "Password confirmation is required", groups = IValidationGroups.Registration.class)
     @Transient
     private String passwordConfirm;
     private String role;
+    @NotBlank(message = "Address is required")
     private String streetName;
+    @NotBlank(message = "House Number is required")
     private String houseNumber;
+    @NotBlank(message = "Postal Code is required")
     private String postalCode;
+    @NotBlank(message = "City is required")
     private String city;
     private String state;
+    @NotBlank(message = "Country is required")
     private String country;
-    @Column(name = "birth_date")
+    @NotNull(message = "Birth Date is required")
     private LocalDate birthDate;
-    @Column(length = 10)
     private String gender;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();

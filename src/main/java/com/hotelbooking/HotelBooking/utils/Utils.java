@@ -96,6 +96,14 @@ public class Utils {
         userDTO.setEmail(user.getEmail());
         userDTO.setPhoneNumber(user.getPhoneNumber());
         userDTO.setRole(user.getRole());
+        userDTO.setStreetName(user.getStreetName());
+        userDTO.setHouseNumber(user.getHouseNumber());
+        userDTO.setPostalCode(user.getPostalCode());
+        userDTO.setCity(user.getCity());
+        userDTO.setState(user.getState());
+        userDTO.setCountry(user.getCountry());
+        userDTO.setBirthDate(user.getBirthDate());
+        userDTO.setGender(user.getGender());
 
         if (!user.getBookings().isEmpty()) {
             LocalDate today = LocalDate.now();

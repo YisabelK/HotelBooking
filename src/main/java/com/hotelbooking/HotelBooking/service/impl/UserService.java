@@ -9,6 +9,7 @@ import com.hotelbooking.HotelBooking.repo.UserRepository;
 import com.hotelbooking.HotelBooking.service.interfac.IUserService;
 import com.hotelbooking.HotelBooking.utils.JWTUtils;
 import com.hotelbooking.HotelBooking.utils.Utils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService implements IUserService {
     @Autowired
     private UserRepository userRepository;
@@ -29,27 +31,41 @@ public class UserService implements IUserService {
     private AuthenticationManager authenticationManager;
 
     @Override
+    @Transactional
     public Response register(User user) {
         Response response = new Response();
+        
         try {
-            if(user.getRole() == null || user.getRole().isBlank()){
+            if(user.getRole() == null || user.getRole().isBlank()) {
                 user.setRole("USER");
             }
-            if(userRepository.existsByEmail(user.getEmail())){
-                throw new OurException(user.getEmail() + "Already Exists");
+
+            if(userRepository.existsByEmail(user.getEmail())) {
+                response.setStatusCode(400);
+                response.setMessage("Email already exists: " + user.getEmail());
+                return response;
             }
+
+            if (!user.getPassword().equals(user.getPasswordConfirm())) {
+                response.setStatusCode(400);
+                response.setMessage("Passwords do not match");
+                return response;
+            }
+
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+
             User savedUser = userRepository.save(user);
+
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(savedUser);
             response.setStatusCode(200);
             response.setUser(userDTO);
-        } catch (OurException e) {
-            response.setStatusCode(400);
-            response.setMessage(e.getMessage());
-        } catch (Exception e){
+            response.setMessage("Registration successful");
+            
+        } catch (Exception e) {
             response.setStatusCode(500);
-            response.setMessage("Error Occurred During User Registration " + e.getMessage());
+            response.setMessage("Registration failed: " + e.getMessage());
         }
+        
         return response;
     }
 
