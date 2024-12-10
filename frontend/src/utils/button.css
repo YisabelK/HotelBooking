@@ -1,0 +1,51 @@
+.custom-button {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+/* Variants */
+.custom-button.primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.custom-button.secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.custom-button.danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Sizes */
+.custom-button.small {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.custom-button.medium {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.custom-button.large {
+  padding: 16px 32px;
+  font-size: 18px;
+}
+
+/* Hover states */
+.custom-button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Disabled state */
+.custom-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

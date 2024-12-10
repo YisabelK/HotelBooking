@@ -1,0 +1,277 @@
+/*HOME PAGE STYLING STARTS HERE*/
+
+.home {
+  margin-bottom: 100px;
+}
+
+/* HEADER */
+/* Header overlay */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+/* The header banner */
+.header-banner {
+  /* background-image: url("../public/assets/images/hotel.webp"); */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.header-banner {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+}
+
+.header-banner h1 {
+  font-size: 50px;
+  color: #f8f3f3;
+}
+
+.header-banner h3 {
+  color: #f8f3f3;
+  font-size: 30px;
+}
+
+/*Home services section*/
+.home-services {
+  font-weight: 800;
+  color: #a09080;
+  text-align: center;
+  margin: 5px auto 30px auto;
+}
+
+.phegon-color {
+  color: #ff007f;
+  color: #ff7f50;
+}
+
+.service-section {
+  margin: 0px 60px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.service-card {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-image {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-title {
+  color: white;
+  font-size: 28px;
+  text-align: center;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.service-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-description {
+  color: white;
+  padding: 20px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.service-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.service-card:hover .service-overlay {
+  opacity: 1;
+}
+
+.service-card:hover .service-title {
+  transform: translateY(-100px);
+}
+
+@media (max-width: 768px) {
+  .service-section {
+    grid-template-columns: 1fr;
+    margin: 5px;
+    gap: 15px;
+  }
+
+  .service-card {
+    height: 250px;
+    width: 100%;
+  }
+
+  .service-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .service-title {
+    font-size: 24px;
+  }
+
+  .service-description {
+    font-size: 14px;
+    padding: 15px;
+  }
+
+  .header-banner h1 {
+    font-size: 20px;
+  }
+}
+
+/*HOME PAGE STYLING ENDS HERE*/
+
+.header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.animated-texts {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Banner indicators */
+.banner-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 2;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: #fff;
+}
+
+.banner-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 1rem 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  z-index: 2;
+}
+
+.banner-arrow:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.banner-arrow.left {
+  left: 0;
+  border-radius: 0 5px 5px 0;
+}
+
+.banner-arrow.right {
+  right: 0;
+  border-radius: 5px 0 0 5px;
+}
+
+/* 모바일 반응형 스타일 수정 */
+@media (max-width: 768px) {
+  .banner-arrow {
+    font-size: 1.5rem;
+    padding: 0.5rem 0.3rem;
+  }
+
+  .service-section {
+    margin: 5px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .header-banner h1 {
+    font-size: 20px;
+  }
+}
+
+.services-description {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  text-align: center;
+  line-height: 1.8;
+  font-size: 18px;
+  color: #666;
+  padding: 0 20px;
+}

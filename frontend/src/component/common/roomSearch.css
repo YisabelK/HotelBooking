@@ -1,0 +1,93 @@
+/*ROOM SEARCH STARTS HERE*/
+
+.search-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  padding: 10px;
+  max-width: 100%;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 250px;
+  max-width: 300px;
+  margin: 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.search-field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #666;
+}
+
+.search-field input,
+.search-field select,
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  height: 40px;
+  box-sizing: border-box;
+}
+
+.home-search-button {
+  height: 48px;
+  padding: 0 30px;
+  background-color: #a09080;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+.home-search-button:hover {
+  background-color: #ff7f50;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+  display: block;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+  display: block;
+}
+
+.react-datepicker__input-container input {
+  width: 100% !important;
+  background-color: white;
+}
+
+@media (max-width: 850px) {
+  .search-container {
+    flex-direction: column;
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .search-field {
+    width: 100%;
+    max-width: none;
+  }
+
+  .home-search-button {
+    width: 50%;
+    margin-top: 10px;
+  }
+}

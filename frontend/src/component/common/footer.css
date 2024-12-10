@@ -1,0 +1,167 @@
+/**NAV BAR STYLING END HERE*/
+
+/* FOOTER STYKLING */
+.footer {
+  background-color: #f1e3c4;
+  color: #4c453d;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  padding: 40px 70px 20px;
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid #ddd;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+/* Brand Section */
+.footer-brand h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #4c453d;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Links Section */
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  margin-left: 50px;
+}
+
+.footer-links div {
+  margin-right: 40px;
+}
+
+.footer-links p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.footer-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-menu a {
+  text-decoration: none;
+  color: #666;
+  margin: 5px 0;
+  transition: color 0.3s;
+}
+
+.footer-menu a:hover {
+  color: #ff7f50;
+}
+
+/* SNS Section */
+.footer-sns {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-sns span {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* SNS 아이콘을 감싸는 새로운 컨테이너 */
+.sns-icons {
+  display: flex;
+  gap: 15px; /* 아이콘 사이의 간격 */
+}
+
+.sns-icon {
+  text-decoration: none;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.sns-icon:hover {
+  color: #ff7f50;
+}
+
+/* Copyright Section */
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.footer-copyright {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    padding: 30px 20px 15px;
+    text-align: center;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .footer-links {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .footer-links div {
+    margin-right: 0;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  .footer-menu {
+    align-items: center;
+    width: 100%;
+  }
+
+  .footer-sns {
+    align-items: center;
+    width: 100%;
+  }
+
+  .sns-icons {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .footer-bottom {
+    width: 100%;
+  }
+}
+
+.phone-number {
+  white-space: nowrap;
+}

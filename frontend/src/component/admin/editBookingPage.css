@@ -1,0 +1,11 @@
+.acheive-booking {
+  margin: 10px auto;
+  background-color: var(--secondary-color);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.acheive-booking:hover {
+  background-color: var(--secondary-color);
+}

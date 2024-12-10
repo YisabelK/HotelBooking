@@ -1,0 +1,101 @@
+.add-room-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+.add-room-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #4c453d;
+}
+
+.form-group input[type="file"] {
+  padding: 8px 0;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.room-photo-preview {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.update-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #a09080;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+  background-color: #8b7b6b;
+}
+
+@media (max-width: 768px) {
+  .edit-room-container {
+    margin: 20px;
+    padding: 10px;
+  }
+
+  .edit-room-form {
+    padding: 20px;
+  }
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.file-upload-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #a09080;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600 !important;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.file-upload-button:hover {
+  background-color: #8b7b6b;
+}
