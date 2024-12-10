@@ -10,7 +10,6 @@ import com.hotelbooking.HotelBooking.repo.BookingRepository;
 import com.hotelbooking.HotelBooking.repo.RoomRepository;
 import com.hotelbooking.HotelBooking.repo.UserRepository;
 import com.hotelbooking.HotelBooking.service.interfac.IBookingService;
-import com.hotelbooking.HotelBooking.service.interfac.IRoomService;
 import com.hotelbooking.HotelBooking.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -24,13 +23,18 @@ public class BookingService implements IBookingService {
     @Autowired
     private BookingRepository bookingRepository;
     @Autowired
-    private IRoomService roomService;
-    @Autowired
     private RoomRepository roomRepository;
     @Autowired
     private UserRepository userRepository;
 
 
+    /*
+     * Save a booking
+     * @param roomId
+     * @param userId
+     * @param bookingRequest
+     * @return Response
+     */
     @Override
     public Response saveBooking(Long roomId, Long userId, Booking bookingRequest) {
         Response response = new Response();
@@ -38,7 +42,15 @@ public class BookingService implements IBookingService {
             if(bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())){
                 throw new IllegalArgumentException("Check in date must come after check out date");
             }
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not Found"));
+            Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new OurException("Room Not Found"));
+                
+            int totalGuests = bookingRequest.getNumOfAdults() + bookingRequest.getNumOfChildren();
+            if (totalGuests > room.getRoomType().getMaxOccupancy()) {
+                throw new OurException("Total number of guests exceeds room capacity. Maximum allowed: " 
+                    + room.getRoomType().getMaxOccupancy());
+            }
+            
             User user = userRepository.findById(userId).orElseThrow(()-> new OurException("User Not Found"));
 
             List<Booking> existingBookings = room.getBookings();
@@ -66,6 +78,11 @@ public class BookingService implements IBookingService {
         return response;
     }
 
+    /*
+     * Find a booking by confirmation code
+     * @param confirmationCode
+     * @return Response
+     */
     @Override
     public Response findBookingByConfirmationCode(String confirmationCode) {
         Response response = new Response();
@@ -86,6 +103,10 @@ public class BookingService implements IBookingService {
         return response;
     }
 
+    /*
+     * Get all bookings
+     * @return Response
+     */
     @Override
     public Response getAllBookings() {
         Response response = new Response();
@@ -106,6 +127,11 @@ public class BookingService implements IBookingService {
         return response;
     }
 
+    /*
+     * Cancel a booking
+     * @param bookingId
+     * @return Response
+     */
     @Override
     public Response cancelBooking(Long bookingId) {
         Response response = new Response();
@@ -125,6 +151,12 @@ public class BookingService implements IBookingService {
         return response;
     }
 
+    /*
+     * Check if a room is available for the given booking request
+     * @param bookingRequest
+     * @param existingBookings
+     * @return boolean
+     */
     private boolean roomIsAvailable(Booking bookingRequest, List<Booking> existingBookings) {
 
         return existingBookings.stream()

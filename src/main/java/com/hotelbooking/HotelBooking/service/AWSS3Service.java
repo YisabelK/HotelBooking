@@ -1,53 +1,53 @@
 package com.hotelbooking.HotelBooking.service;
 
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.hotelbooking.HotelBooking.exception.OurException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.InputStream;
+import java.io.IOException;
+import java.util.UUID;
 
+/*
+ * AWS S3 Service: Image upload to S3 bucket
+ * Updated to latest version
+ */
 @Service
 public class AWSS3Service {
-    private final String bucketName = "isabel-hotel-images";
+    private final S3Client s3Client;
+    private final String bucketName;
 
-    @Value("${aws.s3.acess.key}")
-    private String awsS3AccessKey;
+    public AWSS3Service(
+            @Value("${aws.s3.access.key}") String accessKey,
+            @Value("${aws.s3.secret.key}") String secretKey,
+            @Value("${bucket-name}") String bucketName
+    ) {
+        AwsBasicCredentials awsCredentials = AwsBasicCredentials.create(accessKey, secretKey);
 
-    @Value("${aws.s3.secret.key}")
-    private String awsS3SecretKey;
+        this.s3Client = S3Client.builder()
+                .region(Region.EU_NORTH_1)
+                .credentialsProvider(StaticCredentialsProvider.create(awsCredentials))
+                .build();
+        this.bucketName = bucketName;
+    }
 
-    public String saveImageToS3(MultipartFile photo){
-        String s3LocationImage = null;
+    public String saveImageToS3(MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
-        try {
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(fileName)
+                .contentType(file.getContentType())
+                .build();
 
-            String s3Filename = photo.getOriginalFilename();
+        s3Client.putObject(putObjectRequest,
+                RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3AccessKey, awsS3SecretKey);
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                    .withRegion(Regions.EU_NORTH_1)
-                    .build();
-
-            InputStream inputStream = photo.getInputStream();
-
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType("image/jpeg");
-
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, s3Filename, inputStream, metadata);
-            s3Client.putObject(putObjectRequest);
-            return "http://"+bucketName+ ".s3.amazonaws.com/"+s3Filename;
-
-        } catch (Exception e) {
-            throw new OurException("Unable to upload image to s3 bucket" + e.getMessage());
-        }
+        return "https://" + bucketName + ".s3.amazonaws.com/" + fileName;
     }
 }

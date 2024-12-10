@@ -1,7 +1,6 @@
 package com.hotelbooking.HotelBooking.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.hotelbooking.HotelBooking.entity.Booking;
 import lombok.Data;
 
 import java.time.LocalDate;

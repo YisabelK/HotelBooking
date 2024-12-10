@@ -27,6 +27,11 @@ public class Utils {
         return stringBuilder.toString();
     }
 
+    /*
+     * Map User entity to UserDTO
+     * @param user
+     * @return UserDTO
+     */
     public static UserDTO mapUserEntityToUserDTO (User user){
         UserDTO userDTO = new UserDTO();
 
@@ -47,6 +52,11 @@ public class Utils {
         return userDTO;
     }
 
+    /*
+     * Map Room entity to RoomDTO
+     * @param room
+     * @return RoomDTO
+     */
     public static RoomDTO mapRoomEntityToRoomDTO (Room room){
         RoomDTO roomDTO = new RoomDTO();
 
@@ -58,6 +68,11 @@ public class Utils {
         return roomDTO;
     }
 
+    /*
+     * Map Booking entity to BookingDTO
+     * @param booking
+     * @return BookingDTO
+     */
     public static BookingDTO mapBookingEntityToBookingDTO (Booking booking){
         BookingDTO bookingDTO = new BookingDTO();
 
@@ -71,6 +86,11 @@ public class Utils {
         return bookingDTO;
     }
 
+    /*
+     * Map Room entity to RoomDTO with bookings
+     * @param room
+     * @return RoomDTO
+     */
     public static RoomDTO mapRoomEntityToRoomDTOPlusBookings (Room room){
         RoomDTO roomDTO = new RoomDTO();
 
@@ -87,7 +107,11 @@ public class Utils {
     }
 
 
-
+    /*
+     * Map User entity to UserDTO with bookings and rooms
+     * @param user
+     * @return UserDTO
+     */
     public static UserDTO mapUserEntityToUserDTOPlusUserBookingAndRoom(User user) {
         UserDTO userDTO = new UserDTO();
 
@@ -125,6 +149,12 @@ public class Utils {
         return userDTO;
     }
 
+    /*
+     * Map Booking entity to BookingDTO with booked rooms
+     * @param booking
+     * @param mapUser
+     * @return BookingDTO
+     */
     public static BookingDTO mapBookingEntityToBookingDTOPlusBookedRooms(Booking booking, boolean mapUser){
         BookingDTO bookingDTO = new BookingDTO();
 
@@ -151,14 +181,29 @@ public class Utils {
         return bookingDTO;
     }
 
+    /*
+     * Map User entity to UserDTO
+     * @param userList
+     * @return List<UserDTO>
+     */
     public static List<UserDTO> mapUserListEntityToUserListDTO(List<User> userList){
         return userList.stream().map(Utils::mapUserEntityToUserDTO).collect(Collectors.toList());
     }
 
+    /*
+     * Map Room entity to RoomDTO
+     * @param roomList
+     * @return List<RoomDTO>
+     */
     public static List<RoomDTO> mapRoomListEntityToRoomListDTO(List<Room> roomList){
         return roomList.stream().map(Utils::mapRoomEntityToRoomDTO).collect(Collectors.toList());
     }
 
+    /*
+     * Map Booking entity to BookingDTO
+     * @param bookingList
+     * @return List<BookingDTO>
+     */
     public static List<BookingDTO> mapBookingListEntityToBookingListDTO(List<Booking> bookingList){
         return bookingList.stream().map(Utils::mapBookingEntityToBookingDTO).collect(Collectors.toList());
     }

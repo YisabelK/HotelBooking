@@ -8,29 +8,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Date;
 import java.util.function.Function;
 
+/*
+ * JWT Utils: Generate and validate JWT tokens 
+ * access token is valid for 30 minutes
+ * refresh token is valid for 14 days
+ */
 @Service
 public class JWTUtils {
 
-    private static final  long EXPIRATION_TIME = 1000 * 60 * 24 * 7;
-
-    private static final String SECRET_KEY = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+    private static final long ACCESS_TOKEN_EXPIRATION = 1000 * 60 * 30; // 30 minutes
+    private static final long REFRESH_TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 14; // 14 days
+    
     private final SecretKey key;
-
-    public JWTUtils() {
-        this.key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    
+    public JWTUtils(@Value("${jwt.secret}") String secretKey) {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateAccessToken(UserDetails userDetails) {
+        return generateToken(userDetails, ACCESS_TOKEN_EXPIRATION);
+    }
+    
+    public String generateRefreshToken(UserDetails userDetails) {
+        return generateToken(userDetails, REFRESH_TOKEN_EXPIRATION);
+    }
+
+    private String generateToken(UserDetails userDetails, long expiration) {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(key)
                 .compact();
     }
