@@ -3,18 +3,19 @@ import axios from "axios";
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:4040";
 
-// Axios 인터셉터 설정
+
+/**
+ * if the token is expired, it will refresh the token
+ */
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
 
-    // 로그인 요청에서의 401 에러는 바로 반환
     if (originalRequest.url.includes("/auth/login")) {
       return Promise.reject(error);
     }
 
-    // 토큰이 만료되었고, 재시도하지 않은 요청인 경우
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
@@ -51,6 +52,9 @@ axios.interceptors.response.use(
   }
 );
 
+/**
+ * ApiService class
+ */
 export default class ApiService {
   static BASE_URL = API_BASE_URL;
 
@@ -62,8 +66,7 @@ export default class ApiService {
     };
   }
 
-  /**AUTH */
-
+  /**USER */
   /* This  register a new user */
   static async registerUser(registration) {
     const response = await axios.post(
@@ -94,12 +97,10 @@ export default class ApiService {
       }
       return response.data;
     } catch (error) {
-      // 로그인 실패 시 원래 에러 메시지 그대로 반환
       throw error;
     }
   }
 
-  /***USERS */
 
   /*  This is  to get the user profile */
   static async getAllUsers() {
@@ -119,7 +120,6 @@ export default class ApiService {
     return response.data;
   }
 
-  /* This is the  to get a single user */
   static async getUser(userId) {
     const response = await axios.get(
       `${this.BASE_URL}/users/get-by-id/${userId}`,

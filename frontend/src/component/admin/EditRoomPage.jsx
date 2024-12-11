@@ -23,7 +23,6 @@ const EditRoomPage = () => {
   useEffect(() => {
     const fetchRoomDetails = async () => {
       try {
-        // 기존 room details 가져오기
         const response = await ApiService.getRoomById(roomId);
         setRoomDetails({
           roomPhotoUrl: response.room.roomPhotoUrl,
@@ -32,7 +31,6 @@ const EditRoomPage = () => {
           roomDescription: response.room.roomDescription,
         });
 
-        // room types 가져오기 추가
         const types = await ApiService.getRoomTypes();
         setRoomTypes(types);
       } catch (error) {

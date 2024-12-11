@@ -65,7 +65,6 @@ const EditProfilePage = () => {
           .sort((a, b) => a.name.localeCompare(b.name));
         setCountries(sortedCountries);
 
-        // If no country is selected, set Germany as default
         if (!formData.country) {
           setFormData((prev) => ({
             ...prev,
@@ -126,7 +125,7 @@ const EditProfilePage = () => {
     } catch (error) {
       console.error("Full error object:", error);
       if (error.response?.status === 403) {
-        setError("세션이 만료되었습니다. 다시 로그인해주세요.");
+        setError("Session expired. Please login again.");
         setTimeout(() => {
           ApiService.logout();
           navigate("/login");

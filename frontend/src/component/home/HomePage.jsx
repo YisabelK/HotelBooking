@@ -31,7 +31,6 @@ const HomePage = () => {
   const [roomSearchResults, setRoomSearchResults] = useState([]);
   const [currentBanner, setCurrentBanner] = useState(0);
 
-  // Auto rotate banner every 5 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentBanner((prev) => (prev + 1) % bannerData.length);
@@ -40,14 +39,12 @@ const HomePage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Function to handle search results
   const handleSearchResult = (results) => {
     setRoomSearchResults(results);
   };
 
   return (
     <div className="home">
-      {/* HEADER / BANNER ROOM SECTION */}
       <section>
         <header className="header-banner">
           <img
@@ -99,7 +96,6 @@ const HomePage = () => {
         </header>
       </section>
 
-      {/* SEARCH/FIND AVAILABLE ROOM SECTION */}
       <RoomSearch handleSearchResult={handleSearchResult} />
       <RoomResult roomSearchResults={roomSearchResults} />
 
@@ -115,7 +111,6 @@ const HomePage = () => {
         meets comfort, and every stay becomes an extraordinary journey.
       </p>
 
-      {/* SERVICES SECTION */}
       <section className="service-section">
         <div className="service-card">
           <div
@@ -178,7 +173,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      {/* AVAILABLE ROOMS SECTION */}
       <section></section>
     </div>
   );

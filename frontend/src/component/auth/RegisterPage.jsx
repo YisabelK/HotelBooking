@@ -66,7 +66,6 @@ function RegisterPage() {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Clear validation error when user types
     if (validationErrors[name]) {
       setValidationErrors({
         ...validationErrors,

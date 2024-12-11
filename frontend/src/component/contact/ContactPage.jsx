@@ -21,7 +21,6 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
     setSubmitStatus("Thank you for your message. We will contact you soon.");
     setFormData({
       name: "",

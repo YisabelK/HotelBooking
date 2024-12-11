@@ -1,4 +1,3 @@
-// src/App.js
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./component/common/Navbar";
@@ -36,6 +35,9 @@ function App() {
             <Route path="/find-booking" element={<FindBookingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            {/* Fallback Route */}
+            <Route path="*" element={<Navigate to="/home" />} />
+
             {/* Protected Routes */}
             <Route
               path="/room-details-book/:roomId"
@@ -75,9 +77,6 @@ function App() {
               path="/admin/edit-booking/:bookingCode"
               element={<AdminRoute element={<EditBookingPage />} />}
             />
-
-            {/* Fallback Route */}
-            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
         <FooterComponent />

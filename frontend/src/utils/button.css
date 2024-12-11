@@ -38,13 +38,11 @@
   font-size: 18px;
 }
 
-/* Hover states */
 .custom-button:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-1px);
 }
 
-/* Disabled state */
 .custom-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
