@@ -35,7 +35,6 @@ A full-stack hotel booking application that enables room reservations and manage
 - CSS3
 
 ### Deployment
-- Frontend: Netlify
 - Backend: AWS
 
 ## API Documentation 📚
