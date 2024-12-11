@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./editProfilePage.css";
 import Button from "../../utils/Button";
+import Modal from "../../utils/Modal";
 
 const EditProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -151,8 +152,16 @@ const EditProfilePage = () => {
   return (
     <div className="edit-profile-page">
       <h2>Edit Profile</h2>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
+      {error && (
+        <Modal type="error" message={error} onClose={() => setError(null)} />
+      )}
+      {success && (
+        <Modal
+          type="success"
+          message={success}
+          onClose={() => setSuccess(null)}
+        />
+      )}
 
       <form onSubmit={handleSubmit} className="edit-profile-form">
         <div className="form-group">

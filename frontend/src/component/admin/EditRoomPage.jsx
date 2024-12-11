@@ -108,8 +108,16 @@ const EditRoomPage = () => {
   return (
     <div className="edit-room-container">
       <h2>Edit Room</h2>
-      {error && <Modal message={error} onClose={() => setError("")} />}
-      {success && <Modal message={success} onClose={() => setSuccess("")} />}
+      {error && (
+        <Modal type="error" message={error} onClose={() => setError("")} />
+      )}
+      {success && (
+        <Modal
+          type="success"
+          message={success}
+          onClose={() => setSuccess("")}
+        />
+      )}
       <div className="edit-room-form">
         <div className="form-group">
           {preview ? (

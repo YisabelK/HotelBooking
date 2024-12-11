@@ -3,7 +3,6 @@ import axios from "axios";
 const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL || "http://localhost:4040";
 
-
 /**
  * if the token is expired, it will refresh the token
  */
@@ -32,13 +31,13 @@ axios.interceptors.response.use(
 
         if (response.data.statusCode === 200) {
           const newAccessToken = response.data.accessToken;
-          localStorage.setItem("token", newAccessToken);
+          localStorage.setItem("accessToken", newAccessToken);
 
           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
           return axios(originalRequest);
         }
       } catch (refreshError) {
-        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         localStorage.removeItem("role");
         window.location.href = "/login";
@@ -59,7 +58,7 @@ export default class ApiService {
   static BASE_URL = API_BASE_URL;
 
   static getHeader() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     return {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -91,7 +90,7 @@ export default class ApiService {
       );
 
       if (response.data.statusCode === 200) {
-        localStorage.setItem("token", response.data.accessToken);
+        localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
         localStorage.setItem("role", response.data.role);
       }
@@ -100,7 +99,6 @@ export default class ApiService {
       throw error;
     }
   }
-
 
   /*  This is  to get the user profile */
   static async getAllUsers() {
@@ -273,13 +271,13 @@ export default class ApiService {
 
   /**AUTHENTICATION CHECKER */
   static logout() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("role");
   }
 
   static isAuthenticated() {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     return !!token;
   }
 
@@ -295,7 +293,7 @@ export default class ApiService {
 
   static async updateProfile(updateData) {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       console.log("Token being used:", token);
 
       const headers = {

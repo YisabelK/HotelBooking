@@ -5,7 +5,10 @@ import "./auth.css";
 import LoginWelcome from "./LoginWelcome";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
+import { registerLocale } from "react-datepicker";
+import enGB from "date-fns/locale/en-GB";
 
+registerLocale("en-GB", enGB);
 function RegisterPage() {
   const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
@@ -288,6 +291,7 @@ function RegisterPage() {
                 name="birthDate"
                 value={formData.birthDate}
                 onChange={handleInputChange}
+                locale="en-GB"
               />
             </div>
             <div className="form-group">
