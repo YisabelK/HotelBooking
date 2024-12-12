@@ -9,6 +9,7 @@ import com.hotelbooking.HotelBooking.repo.RoomRepository;
 import com.hotelbooking.HotelBooking.service.AWSS3Service;
 import com.hotelbooking.HotelBooking.service.interfac.IRoomService;
 import com.hotelbooking.HotelBooking.utils.Utils;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class RoomService implements IRoomService {
 
     @Autowired

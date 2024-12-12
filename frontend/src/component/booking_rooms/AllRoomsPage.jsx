@@ -13,7 +13,6 @@ const AllRoomsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [roomsPerPage] = useState(5);
 
-  // Function to handle search results
   const handleSearchResult = (results) => {
     setRooms(results);
     setFilteredRooms(results);

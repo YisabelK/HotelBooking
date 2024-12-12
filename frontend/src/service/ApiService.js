@@ -46,6 +46,7 @@ axios.interceptors.response.use(
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;
+          
           originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
           return axios(originalRequest);
         }

@@ -19,7 +19,6 @@ const AboutPage = () => {
       }
     );
 
-    // 모든 텍스트 요소를 관찰
     document
       .querySelectorAll(
         ".about-intro p, .experience-content p, .dining-content p, .staff-content p, .resort-item p"

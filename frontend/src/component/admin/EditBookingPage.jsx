@@ -18,13 +18,25 @@ const EditBookingPage = () => {
         const response = await ApiService.getBookingByConfirmationCode(
           bookingCode
         );
-        setBookingDetails(response.booking);
+        console.log("Booking Response:", response);
+
+        if (response && response.booking) {
+          console.log("Booking Details:", response.booking);
+          console.log("User Details:", response.booking.user);
+          console.log("Room Details:", response.booking.room);
+          setBookingDetails(response.booking);
+        } else {
+          setError("Booking details not found");
+        }
       } catch (error) {
-        setError(error.message);
+        console.error("Error fetching booking:", error);
+        setError(error.message || "Error fetching booking details");
       }
     };
 
-    fetchBookingDetails();
+    if (bookingCode) {
+      fetchBookingDetails();
+    }
   }, [bookingCode]);
 
   const acheiveBooking = async (bookingId) => {
@@ -73,8 +85,7 @@ const EditBookingPage = () => {
           <p>Check-out Date: {bookingDetails.checkOutDate}</p>
           <p>Num Of Adults: {bookingDetails.numOfAdults}</p>
           <p>Num Of Children: {bookingDetails.numOfChildren}</p>
-          <p>Guest Email: {bookingDetails.guestEmail}</p>
-
+          <p>Total Num Of Guest: {bookingDetails.totalNumOfGuest}</p>
           <br />
           <hr />
           <br />

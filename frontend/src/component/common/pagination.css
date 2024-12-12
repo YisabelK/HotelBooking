@@ -1,10 +1,7 @@
-/*PAGINATION COMPONENT STYLIMNG STARTS HERE*/
-
 .pagination-nav {
   display: flex;
   justify-content: center;
   padding: 10px;
-  /* Add padding for spacing */
 }
 
 .pagination-ul {

@@ -216,8 +216,8 @@ function RegisterPage() {
 
           <div className="address-group">
             <h3>Address Information</h3>
-            <div className="address-row">
-              <FormGroup label="Address:" className="street-name">
+            <div className="row-flex">
+              <FormGroup label="Address:" className="flex-3">
                 <input
                   type="text"
                   name="streetName"
@@ -225,7 +225,7 @@ function RegisterPage() {
                   onChange={handleInputChange}
                 />
               </FormGroup>
-              <FormGroup label="House No:" className="house-number">
+              <FormGroup label="House No:" className="flex-1">
                 <input
                   type="text"
                   name="houseNumber"
@@ -235,8 +235,8 @@ function RegisterPage() {
               </FormGroup>
             </div>
 
-            <div className="location-row">
-              <FormGroup label="Postal Code:">
+            <div className="row-flex">
+              <FormGroup label="Postal Code:" className="flex-1">
                 <input
                   type="text"
                   name="postalCode"
@@ -244,7 +244,7 @@ function RegisterPage() {
                   onChange={handleInputChange}
                 />
               </FormGroup>
-              <FormGroup label="City:">
+              <FormGroup label="City:" className="flex-1">
                 <input
                   type="text"
                   name="city"
@@ -254,8 +254,8 @@ function RegisterPage() {
               </FormGroup>
             </div>
 
-            <div className="location-row">
-              <FormGroup label="Country:">
+            <div className="row-flex">
+              <FormGroup label="Country:" className="flex-1">
                 <select
                   name="country"
                   value={formData.country}
@@ -269,7 +269,7 @@ function RegisterPage() {
                   ))}
                 </select>
               </FormGroup>
-              <FormGroup label="State:">
+              <FormGroup label="State:" className="flex-1">
                 <input
                   type="text"
                   name="state"
@@ -280,8 +280,8 @@ function RegisterPage() {
             </div>
           </div>
 
-          <div className="birth-gender-row">
-            <FormGroup label="Birth Date:">
+          <div className="row-flex">
+            <FormGroup label="Birth Date:" className="flex-1">
               <input
                 type="date"
                 name="birthDate"
@@ -290,7 +290,7 @@ function RegisterPage() {
                 locale="en-GB"
               />
             </FormGroup>
-            <FormGroup label="Gender:">
+            <FormGroup label="Gender:" className="flex-1">
               <select
                 name="gender"
                 value={formData.gender}
@@ -304,7 +304,9 @@ function RegisterPage() {
             </FormGroup>
           </div>
 
-          <Button type="submit">Register</Button>
+          <div className="form-button-container">
+            <Button type="submit">Register</Button>
+          </div>
         </form>
         <p className="register-link">
           Already have an account? <a href="/login">Login</a>

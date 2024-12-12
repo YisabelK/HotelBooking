@@ -1,11 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./roomResult.css";
 import Button from "../../utils/Button";
 
 const RoomResult = ({ roomSearchResults }) => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
   const isAdmin = ApiService.isAdmin();
   return (
     <section className="room-results">
@@ -27,13 +27,13 @@ const RoomResult = ({ roomSearchResults }) => {
               <div className="book-now-div">
                 {isAdmin ? (
                   <Button
-                    onClick={() => navigate(`/admin/edit-room/${room.id}`)} // Navigate to edit room with room ID
+                    onClick={() => navigate(`/admin/edit-room/${room.id}`)} 
                   >
                     Edit Room
                   </Button>
                 ) : (
                   <Button
-                    onClick={() => navigate(`/room-details-book/${room.id}`)} // Navigate to book room with room ID
+                    onClick={() => navigate(`/room-details-book/${room.id}`)}
                   >
                     View/Book Room
                   </Button>

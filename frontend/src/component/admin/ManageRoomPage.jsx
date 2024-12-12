@@ -66,14 +66,7 @@ const ManageRoomPage = () => {
   return (
     <div className="all-rooms">
       <h2>All Rooms</h2>
-      <div
-        className="all-room-filter-div"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <div className="all-room-filter-div">
         <div className="filter-select-div">
           <label>Filter by Room Type:</label>
           <select value={selectedRoomType} onChange={handleRoomTypeChange}>

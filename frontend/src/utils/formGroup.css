@@ -11,31 +11,37 @@
   color: var(--primary-color);
 }
 
-.form-group input {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.form-group select {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 100%;
-}
-
-.form-group input[type="date"] {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 100%;
-}
-
 .form-actions {
   display: flex;
   gap: 20px;
   margin-top: 20px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9em;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(160, 144, 128, 0.2);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 8px;
+  }
 }

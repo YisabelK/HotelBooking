@@ -66,7 +66,9 @@ function LoginPage() {
               placeholder="Enter your password"
             />
           </FormGroup>
-          <Button type="submit">Login</Button>
+          <div className="form-button-container">
+            <Button type="submit">Login</Button>
+          </div>
         </form>
 
         <p className="register-link">
