@@ -4,14 +4,13 @@ import "./button.css";
 const Button = ({
   onClick,
   children,
-  variant = "primary", // primary, secondary, danger
-  size = "medium", // small, medium, large
+  variant = "primary", // primary, danger
   className = "",
   disabled = false,
 }) => {
   return (
     <button
-      className={`custom-button ${variant} ${size} ${className}`}
+      className={`custom-button ${variant} ${className}`}
       onClick={onClick}
       disabled={disabled}
     >

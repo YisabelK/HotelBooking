@@ -25,16 +25,10 @@ const AdminPage = () => {
     <div className="admin-page">
       <h1 className="welcome-message">Welcome, {adminName}</h1>
       <div className="admin-actions">
-        <Button
-          className="admin-button"
-          onClick={() => navigate("/admin/manage-rooms")}
-        >
+        <Button onClick={() => navigate("/admin/manage-rooms")}>
           Manage Rooms
         </Button>
-        <Button
-          className="admin-button"
-          onClick={() => navigate("/admin/manage-bookings")}
-        >
+        <Button onClick={() => navigate("/admin/manage-bookings")}>
           Manage Bookings
         </Button>
       </div>

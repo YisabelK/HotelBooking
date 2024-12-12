@@ -27,14 +27,12 @@ const RoomResult = ({ roomSearchResults }) => {
               <div className="book-now-div">
                 {isAdmin ? (
                   <Button
-                    className="edit-room-button"
                     onClick={() => navigate(`/admin/edit-room/${room.id}`)} // Navigate to edit room with room ID
                   >
                     Edit Room
                   </Button>
                 ) : (
                   <Button
-                    className="book-now-button"
                     onClick={() => navigate(`/room-details-book/${room.id}`)} // Navigate to book room with room ID
                   >
                     View/Book Room

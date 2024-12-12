@@ -63,25 +63,6 @@
   margin-bottom: 30px;
 }
 
-.profile-button {
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-weight: 600;
-}
-
-.profile-button:hover {
-  background-color: var(--secondary-color);
-}
-
-.profile-button.active {
-  background-color: var(--secondary-color);
-}
-
 .profile-details,
 .bookings-section {
   margin-bottom: 20px;

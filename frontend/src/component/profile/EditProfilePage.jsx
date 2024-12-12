@@ -4,22 +4,10 @@ import ApiService from "../../service/ApiService";
 import "./editProfilePage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
+import FormGroup from "../../utils/FormGroup";
 
 const EditProfilePage = () => {
   const [user, setUser] = useState(null);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    streetName: "",
-    houseNumber: "",
-    postalCode: "",
-    city: "",
-    state: "",
-    country: "",
-    birthDate: "",
-    gender: "",
-  });
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
@@ -31,19 +19,6 @@ const EditProfilePage = () => {
         const response = await ApiService.getUserProfile();
         console.log("Fetched user data:", response.user);
         setUser(response.user);
-        setFormData({
-          name: response.user.name || "",
-          email: response.user.email || "",
-          phoneNumber: response.user.phoneNumber || "",
-          streetName: response.user.streetName || "",
-          houseNumber: response.user.houseNumber || "",
-          postalCode: response.user.postalCode || "",
-          city: response.user.city || "",
-          state: response.user.state || "",
-          country: response.user.country || "",
-          birthDate: response.user.birthDate?.split("T")[0] || "",
-          gender: response.user.gender || "",
-        });
       } catch (error) {
         console.error("Error fetching user profile:", error);
         setError(error.message);
@@ -66,8 +41,8 @@ const EditProfilePage = () => {
           .sort((a, b) => a.name.localeCompare(b.name));
         setCountries(sortedCountries);
 
-        if (!formData.country) {
-          setFormData((prev) => ({
+        if (user && !user.country) {
+          setUser((prev) => ({
             ...prev,
             country: "DE",
           }));
@@ -78,11 +53,11 @@ const EditProfilePage = () => {
     };
 
     fetchCountries();
-  }, [formData.country]);
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setUser((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -91,7 +66,7 @@ const EditProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("accessToken");
       if (!token) {
         setError("Please login to edit your profile.");
         setTimeout(() => {
@@ -100,23 +75,7 @@ const EditProfilePage = () => {
         return;
       }
 
-      const updateData = {
-        name: formData.name,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        streetName: formData.streetName || "",
-        houseNumber: formData.houseNumber || "",
-        postalCode: formData.postalCode || "",
-        city: formData.city || "",
-        state: formData.state || "",
-        country: formData.country || "",
-        birthDate: formData.birthDate || "",
-        gender: formData.gender || "",
-      };
-
-      console.log("Sending update data:", updateData);
-      const updatedUser = await ApiService.updateProfile(updateData);
-
+      const updatedUser = await ApiService.updateProfile(user);
       setSuccess("Profile updated successfully!");
       setUser(updatedUser);
 
@@ -125,7 +84,7 @@ const EditProfilePage = () => {
       }, 3000);
     } catch (error) {
       console.error("Full error object:", error);
-      if (error.response?.status === 403) {
+      if (error.response?.status === 403 || error.response?.status === 401) {
         setError("Session expired. Please login again.");
         setTimeout(() => {
           ApiService.logout();
@@ -149,6 +108,10 @@ const EditProfilePage = () => {
     }
   };
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="edit-profile-page">
       <h2>Edit Profile</h2>
@@ -164,137 +127,127 @@ const EditProfilePage = () => {
       )}
 
       <form onSubmit={handleSubmit} className="edit-profile-form">
-        <div className="form-group">
-          <label htmlFor="name">Name:</label>
+        <FormGroup label="Name:">
           <input
             type="text"
             id="name"
             name="name"
-            value={formData.name}
+            value={user.name}
             onChange={handleChange}
           />
-        </div>
+        </FormGroup>
 
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
+        <FormGroup label="Email:">
           <input
             type="email"
             id="email"
             name="email"
-            value={formData.email}
+            value={user.email}
             onChange={handleChange}
           />
-        </div>
+        </FormGroup>
 
-        <div className="form-group">
-          <label htmlFor="phoneNumber">Phone Number:</label>
+        <FormGroup label="Phone Number:">
           <input
             type="tel"
             id="phoneNumber"
             name="phoneNumber"
-            value={formData.phoneNumber}
+            value={user.phoneNumber}
             onChange={handleChange}
           />
-        </div>
+        </FormGroup>
 
         <div className="address-group">
           <h3>Address Details</h3>
-
-          <div className="address-row">
-            <div className="form-group street-name">
-              <label htmlFor="streetName">Address:</label>
+          <div className="row-flex">
+            <FormGroup label="Address:" className="flex-3">
               <input
                 type="text"
                 id="streetName"
                 name="streetName"
-                value={formData.streetName}
+                value={user.streetName}
                 onChange={handleChange}
               />
-            </div>
-
-            <div className="form-group house-number">
-              <label htmlFor="houseNumber">House No:</label>
+            </FormGroup>
+            <FormGroup label="House No:" className="flex-1">
               <input
                 type="text"
                 id="houseNumber"
                 name="houseNumber"
-                value={formData.houseNumber}
+                value={user.houseNumber}
                 onChange={handleChange}
               />
-            </div>
+            </FormGroup>
           </div>
 
-          <div className="location-row">
-            <div className="form-group postal-code">
-              <label htmlFor="postalCode">Postal Code:</label>
+          <div className="row-flex">
+            <FormGroup label="Postal Code:" className="flex-1">
               <input
                 type="text"
                 id="postalCode"
                 name="postalCode"
-                value={formData.postalCode}
+                value={user.postalCode}
                 onChange={handleChange}
               />
-            </div>
-            <div className="form-group city">
-              <label htmlFor="city">City:</label>
+            </FormGroup>
+            <FormGroup label="City:" className="flex-1">
               <input
                 type="text"
                 id="city"
                 name="city"
-                value={formData.city}
+                value={user.city}
                 onChange={handleChange}
                 className="input-field"
               />
-            </div>
-            <div className="form-group state">
-              <label htmlFor="state">State/Province:</label>
+            </FormGroup>
+          </div>
+
+          <div className="row-flex">
+            <FormGroup label="State:" className="flex-1">
               <input
                 type="text"
                 id="state"
                 name="state"
-                value={formData.state}
+                value={user.state}
                 onChange={handleChange}
                 className="input-field"
               />
-            </div>
-          </div>
-          <div className="form-group">
-            <label htmlFor="country">Country:</label>
-            <select
-              id="country"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              className="select-input"
-            >
-              <option value="">Select Country</option>
-              {countries.map((country) => (
-                <option key={country.code} value={country.code}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
+            </FormGroup>
+            <FormGroup label="Country:" className="flex-1">
+              <select
+                id="country"
+                name="country"
+                value={user.country}
+                onChange={handleChange}
+                className="select-input"
+              >
+                <option value="">Select Country</option>
+                {countries.map((country) => (
+                  <option key={country.code} value={country.code}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+            </FormGroup>
           </div>
         </div>
 
-        <div className="birth-gender-row">
-          <div className="form-group">
-            <label htmlFor="birthDate">Birth Date:</label>
+        <div className="row-flex">
+          <FormGroup label="Birth Date:" className="flex-1">
             <input
               type="date"
               id="birthDate"
               name="birthDate"
-              value={formData.birthDate}
+              value={user.birthDate?.split("T")[0] || ""}
               onChange={handleChange}
             />
-          </div>
+          </FormGroup>
 
-          <div className="form-group">
-            <label htmlFor="gender">Gender:</label>
+          <FormGroup label="Gender:" className="flex-1">
             <select
               id="gender"
               name="gender"
-              value={formData.gender}
+              value={user.gender}
               onChange={handleChange}
             >
               <option value="">Select Gender</option>
@@ -302,16 +255,14 @@ const EditProfilePage = () => {
               <option value="FEMALE">Female</option>
               <option value="OTHER">Other</option>
             </select>
-          </div>
+          </FormGroup>
         </div>
 
         <div className="form-actions">
-          <Button type="submit" className="update-profile-button">
-            Update Profile
-          </Button>
+          <Button type="submit">Update Profile</Button>
           <Button
             type="button"
-            className="delete-profile-button"
+            className="danger"
             onClick={handleDeleteProfile}
           >
             Delete Profile

@@ -5,10 +5,12 @@ import "./auth.css";
 import LoginWelcome from "./LoginWelcome";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
+import FormGroup from "../../utils/FormGroup";
 import { registerLocale } from "react-datepicker";
 import enGB from "date-fns/locale/en-GB";
 
 registerLocale("en-GB", enGB);
+
 function RegisterPage() {
   const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
@@ -140,7 +142,7 @@ function RegisterPage() {
   return (
     <>
       <LoginWelcome />
-      <div className="auth-container">
+      <div className="auth-container-register">
         {errorMessage && (
           <Modal
             type="error"
@@ -157,8 +159,7 @@ function RegisterPage() {
         )}
         <h2>Register online account</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Name:</label>
+          <FormGroup label="Name:">
             <input
               type="text"
               name="name"
@@ -167,9 +168,9 @@ function RegisterPage() {
               required
               className={validationErrors.name ? "error-input" : ""}
             />
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
+          </FormGroup>
+
+          <FormGroup label="Email:">
             <input
               type="email"
               name="email"
@@ -177,9 +178,9 @@ function RegisterPage() {
               onChange={handleInputChange}
               required
             />
-          </div>
-          <div className="form-group">
-            <label>Password:</label>
+          </FormGroup>
+
+          <FormGroup label="Password:">
             <input
               type="password"
               name="password"
@@ -187,9 +188,9 @@ function RegisterPage() {
               onChange={handleInputChange}
               required
             />
-          </div>
-          <div className="form-group">
-            <label>Confirm Password:</label>
+          </FormGroup>
+
+          <FormGroup label="Confirm Password:">
             <input
               type="password"
               name="passwordConfirm"
@@ -201,9 +202,9 @@ function RegisterPage() {
             {validationErrors.passwordConfirm && (
               <span className="error-text">Passwords do not match</span>
             )}
-          </div>
-          <div className="form-group">
-            <label>Phone Number:</label>
+          </FormGroup>
+
+          <FormGroup label="Phone Number:">
             <input
               type="text"
               name="phoneNumber"
@@ -211,53 +212,50 @@ function RegisterPage() {
               onChange={handleInputChange}
               required
             />
-          </div>
+          </FormGroup>
 
           <div className="address-group">
             <h3>Address Information</h3>
             <div className="address-row">
-              <div className="form-group street-name">
-                <label>Address:</label>
+              <FormGroup label="Address:" className="street-name">
                 <input
                   type="text"
                   name="streetName"
                   value={formData.streetName}
                   onChange={handleInputChange}
                 />
-              </div>
-              <div className="form-group house-number">
-                <label>House No:</label>
+              </FormGroup>
+              <FormGroup label="House No:" className="house-number">
                 <input
                   type="text"
                   name="houseNumber"
                   value={formData.houseNumber}
                   onChange={handleInputChange}
                 />
-              </div>
+              </FormGroup>
             </div>
+
             <div className="location-row">
-              <div className="form-group">
-                <label>Postal Code:</label>
+              <FormGroup label="Postal Code:">
                 <input
                   type="text"
                   name="postalCode"
                   value={formData.postalCode}
                   onChange={handleInputChange}
                 />
-              </div>
-              <div className="form-group">
-                <label>City:</label>
+              </FormGroup>
+              <FormGroup label="City:">
                 <input
                   type="text"
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
                 />
-              </div>
+              </FormGroup>
             </div>
+
             <div className="location-row">
-              <div className="form-group">
-                <label>Country:</label>
+              <FormGroup label="Country:">
                 <select
                   name="country"
                   value={formData.country}
@@ -270,22 +268,20 @@ function RegisterPage() {
                     </option>
                   ))}
                 </select>
-              </div>
-              <div className="form-group">
-                <label>State:</label>
+              </FormGroup>
+              <FormGroup label="State:">
                 <input
                   type="text"
                   name="state"
                   value={formData.state}
                   onChange={handleInputChange}
                 />
-              </div>
+              </FormGroup>
             </div>
           </div>
 
           <div className="birth-gender-row">
-            <div className="form-group">
-              <label>Birth Date:</label>
+            <FormGroup label="Birth Date:">
               <input
                 type="date"
                 name="birthDate"
@@ -293,9 +289,8 @@ function RegisterPage() {
                 onChange={handleInputChange}
                 locale="en-GB"
               />
-            </div>
-            <div className="form-group">
-              <label>Gender:</label>
+            </FormGroup>
+            <FormGroup label="Gender:">
               <select
                 name="gender"
                 value={formData.gender}
@@ -306,7 +301,7 @@ function RegisterPage() {
                 <option value="FEMALE">Female</option>
                 <option value="OTHER">Other</option>
               </select>
-            </div>
+            </FormGroup>
           </div>
 
           <Button type="submit">Register</Button>

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./contact.css";
 import Button from "../../utils/Button";
+import Modal from "../../utils/Modal";
+import FormGroup from "../../utils/FormGroup";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -36,10 +38,9 @@ const ContactPage = () => {
       <h1>Contact Us</h1>
       <div className="contact-form">
         <h2>Send us a Message</h2>
-        {submitStatus && <p className="success-message">{submitStatus}</p>}
+        {submitStatus && <Modal title="Success" message={submitStatus} />}
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Name:</label>
+          <FormGroup label="Name">
             <input
               type="text"
               name="name"
@@ -47,9 +48,8 @@ const ContactPage = () => {
               onChange={handleChange}
               required
             />
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
+          </FormGroup>
+          <FormGroup label="Email">
             <input
               type="email"
               name="email"
@@ -57,9 +57,8 @@ const ContactPage = () => {
               onChange={handleChange}
               required
             />
-          </div>
-          <div className="form-group">
-            <label>Subject:</label>
+          </FormGroup>
+          <FormGroup label="Subject">
             <input
               type="text"
               name="subject"
@@ -67,16 +66,15 @@ const ContactPage = () => {
               onChange={handleChange}
               required
             />
-          </div>
-          <div className="form-group">
-            <label>Message:</label>
+          </FormGroup>
+          <FormGroup label="Message">
             <textarea
               name="message"
               value={formData.message}
               onChange={handleChange}
               required
             ></textarea>
-          </div>
+          </FormGroup>
           <div className="form-button-container">
             <Button type="submit">Send Message</Button>
           </div>

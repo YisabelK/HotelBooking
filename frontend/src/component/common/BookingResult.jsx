@@ -1,20 +1,26 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Field from "../../utils/Field";
 import "./bookingResult.css";
+import ApiService from "../../service/ApiService";
 
 const BookingResult = ({ bookingSearchResults }) => {
+  const isAdmin = ApiService.isAdmin();
   return (
     <div className="booking-results">
       {bookingSearchResults.map((booking) => (
         <div key={booking.id} className="booking-result-item">
-          <p>Room ID: {booking.roomId}</p>
-          <p>User ID: {booking.userId}</p>
-          <p>Start Date: {booking.startDate}</p>
-          <p>End Date: {booking.endDate}</p>
-          <p>Status: {booking.status}</p>
-          <Link to={`/admin/edit-booking/${booking.id}`} className="edit-link">
-            Edit
-          </Link>
+          <Field label="Booking Code" value={booking.bookingConfirmationCode} />
+          <Field label="Check In" value={booking.checkInDate} />
+          <Field label="Check Out" value={booking.checkOutDate} />
+          {isAdmin && (
+            <Link
+              to={`/admin/edit-booking/${booking.bookingConfirmationCode}`}
+              className="edit-link"
+            >
+              Edit Booking
+            </Link>
+          )}
         </div>
       ))}
     </div>

@@ -4,6 +4,8 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
 /* Variants */
@@ -12,30 +14,9 @@
   color: white;
 }
 
-.custom-button.secondary {
-  background-color: var(--secondary-color);
-  color: white;
-}
-
 .custom-button.danger {
   background-color: #dc3545;
   color: white;
-}
-
-/* Sizes */
-.custom-button.small {
-  padding: 8px 16px;
-  font-size: 14px;
-}
-
-.custom-button.medium {
-  padding: 12px 24px;
-  font-size: 16px;
-}
-
-.custom-button.large {
-  padding: 16px 32px;
-  font-size: 18px;
 }
 
 .custom-button:hover:not(:disabled) {

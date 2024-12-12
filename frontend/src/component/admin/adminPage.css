@@ -19,31 +19,9 @@
   gap: 20px;
 }
 
-.admin-button {
-  padding: 15px 30px;
-  font-size: 1em;
-  color: white;
-  background-color: var(--primary-color);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.admin-button:hover {
-  background-color: var(--secondary-color);
-}
-
 @media (max-width: 768px) {
   .admin-actions {
     flex-direction: column;
     gap: 10px;
-  }
-
-  .admin-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 0.9em;
   }
 }

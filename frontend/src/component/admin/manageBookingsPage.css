@@ -31,12 +31,6 @@
   font-size: 14px;
 }
 
-.booking-item-button {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
 h2 {
   text-align: center;
   margin-bottom: 20px;
@@ -65,21 +59,6 @@ h2 {
   width: 250px;
 }
 
-.edit-room-button {
-  width: 100px;
-  background-color: var(--primary-color);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  text-decoration: none;
-  text-align: center;
-}
-
-.edit-room-button:hover {
-  background-color: var(--secondary-color);
-  cursor: pointer;
-}
-
 @media (max-width: 768px) {
   .booking-result-item {
     grid-template-columns: 1fr;
@@ -89,9 +68,5 @@ h2 {
   .booking-item-info,
   .booking-item-date {
     text-align: center;
-  }
-
-  .booking-item-button {
-    justify-content: center;
   }
 }

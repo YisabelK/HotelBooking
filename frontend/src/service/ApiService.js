@@ -11,7 +11,11 @@ axios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (originalRequest.url.includes("/auth/login")) {
+    if (
+      originalRequest.url.includes("/auth/login") ||
+      originalRequest.url.includes("/auth/refresh-token") ||
+      originalRequest._retry
+    ) {
       return Promise.reject(error);
     }
 
@@ -26,20 +30,27 @@ axios.interceptors.response.use(
 
         const response = await axios.post(
           `${API_BASE_URL}/auth/refresh-token`,
-          refreshToken
+          { refreshToken },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
 
         if (response.data.statusCode === 200) {
-          const newAccessToken = response.data.accessToken;
-          localStorage.setItem("accessToken", newAccessToken);
+          const { accessToken, refreshToken: newRefreshToken } = response.data;
 
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", newRefreshToken);
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${accessToken}`;
+          originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
           return axios(originalRequest);
         }
       } catch (refreshError) {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("role");
+        localStorage.clear();
         window.location.href = "/login";
         return Promise.reject(
           new Error("Session expired. Please login again.")

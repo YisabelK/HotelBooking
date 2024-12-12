@@ -116,9 +116,7 @@ const RoomSearch = ({ handleSearchResult }) => {
             ))}
           </select>
         </div>
-        <Button className="home-search-button" onClick={handleInternalSearch}>
-          Search Rooms
-        </Button>
+        <Button onClick={handleInternalSearch}>Search Rooms</Button>
       </div>
       {showModal && (
         <Modal type="error" message={error} onClose={handleCloseModal} />

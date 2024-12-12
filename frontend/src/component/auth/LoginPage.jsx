@@ -4,6 +4,8 @@ import ApiService from "../../service/ApiService";
 import "./auth.css";
 import LoginWelcome from "./LoginWelcome";
 import Button from "../../utils/Button";
+import Modal from "../../utils/Modal";
+import FormGroup from "../../utils/FormGroup";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
@@ -26,7 +28,8 @@ function LoginPage() {
     try {
       const response = await ApiService.loginUser({ email, password });
       if (response.statusCode === 200) {
-        localStorage.setItem("token", response.token);
+        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
         localStorage.setItem("role", response.role);
         navigate(from, { replace: true });
       }
@@ -41,10 +44,11 @@ function LoginPage() {
       <LoginWelcome />
       <div className="auth-container">
         <h2>Login</h2>
-        {error && <p className="error-message">{error}</p>}
+        {error && (
+          <Modal type="error" message={error} onClose={() => setError(null)} />
+        )}
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email: </label>
+          <FormGroup label="Email:">
             <input
               type="email"
               value={email}
@@ -52,9 +56,8 @@ function LoginPage() {
               required
               placeholder="Enter your email address"
             />
-          </div>
-          <div className="form-group">
-            <label>Password: </label>
+          </FormGroup>
+          <FormGroup label="Password:">
             <input
               type="password"
               value={password}
@@ -62,7 +65,7 @@ function LoginPage() {
               required
               placeholder="Enter your password"
             />
-          </div>
+          </FormGroup>
           <Button type="submit">Login</Button>
         </form>
 

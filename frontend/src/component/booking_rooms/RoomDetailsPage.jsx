@@ -1,59 +1,56 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ApiService from "../../service/ApiService"; // Assuming your service is in a file called ApiService.js
+import ApiService from "../../service/ApiService";
 import DatePicker from "react-datepicker";
 import "./roomDetailsPage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
-// import 'react-datepicker/dist/react-datepicker.css';
 
 const RoomDetailsPage = () => {
-  const navigate = useNavigate(); // Access the navigate function to navigate
-  const { roomId } = useParams(); // Get room ID from URL parameters
+  const navigate = useNavigate();
+  const { roomId } = useParams();
   const [roomDetails, setRoomDetails] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Track loading state
-  const [error, setError] = useState(null); // Track any errors
-  const [checkInDate, setCheckInDate] = useState(null); // State variable for check-in date
-  const [checkOutDate, setCheckOutDate] = useState(null); // State variable for check-out date
-  const [numAdults, setNumAdults] = useState(1); // State variable for number of adults
-  const [numChildren, setNumChildren] = useState(0); // State variable for number of children
-  const [totalPrice, setTotalPrice] = useState(0); // State variable for total booking price
-  const [totalGuests, setTotalGuests] = useState(1); // State variable for total number of guests
-  const [showDatePicker, setShowDatePicker] = useState(false); // State variable to control date picker visibility
-  const [userId, setUserId] = useState(""); // Set user id
-  const [confirmationCode, setConfirmationCode] = useState(""); // State variable for booking confirmation code
-  const [errorMessage, setErrorMessage] = useState(""); // State variable for error message
-  const [isAdmin, setIsAdmin] = useState(false); // State variable to control admin access
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [numAdults, setNumAdults] = useState(1);
+  const [numChildren, setNumChildren] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalGuests, setTotalGuests] = useState(1);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [userId, setUserId] = useState("");
+  const [confirmationCode, setConfirmationCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showCheckButton, setShowCheckButton] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setIsLoading(true); // Set loading state to true
+        setIsLoading(true);
         const response = await ApiService.getRoomById(roomId);
         setRoomDetails(response.room);
         const userProfile = await ApiService.getUserProfile();
         setUserId(userProfile.user.id);
-        setIsAdmin(userProfile.user.isAdmin); // Set admin access based on user profile
+        setIsAdmin(userProfile.user.isAdmin);
       } catch (error) {
         setError(error.response?.data?.message || error.message);
       } finally {
-        setIsLoading(false); // Set loading state to false after fetching or error
+        setIsLoading(false);
       }
     };
     fetchData();
-  }, [roomId]); // Re-run effect when roomId changes
+  }, [roomId]);
 
   const handleConfirmBooking = async () => {
-    // Check if check-in and check-out dates are selected
     if (!checkInDate || !checkOutDate) {
       setErrorMessage("Please select check-in and check-out dates.");
-      setTimeout(() => setErrorMessage(""), 5000); // Clear error message after 5 seconds
+      setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
 
-    // Check if number of adults and children are valid
     if (
       isNaN(numAdults) ||
       numAdults < 1 ||
@@ -61,20 +58,17 @@ const RoomDetailsPage = () => {
       numChildren < 0
     ) {
       setErrorMessage("Please enter valid numbers for adults and children.");
-      setTimeout(() => setErrorMessage(""), 5000); // Clear error message after 5 seconds
+      setTimeout(() => setErrorMessage(""), 5000);
       return;
     }
 
-    // Calculate total number of days
-    const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+    const oneDay = 24 * 60 * 60 * 1000;
     const startDate = new Date(checkInDate);
     const endDate = new Date(checkOutDate);
     const totalDays = Math.round(Math.abs((endDate - startDate) / oneDay));
 
-    // Calculate total number of guests
     const totalGuests = numAdults + numChildren;
 
-    // Calculate total price
     const roomPricePerNight = roomDetails.roomPrice;
     const totalPrice = roomPricePerNight * totalDays;
 
@@ -85,15 +79,12 @@ const RoomDetailsPage = () => {
 
   const acceptBooking = async () => {
     try {
-      // Ensure checkInDate and checkOutDate are Date objects
       const startDate = new Date(checkInDate);
       const endDate = new Date(checkOutDate);
 
-      // Log the original dates for debugging
       console.log("Original Check-in Date:", startDate);
       console.log("Original Check-out Date:", endDate);
 
-      // Convert dates to YYYY-MM-DD format, adjusting for time zone differences
       const formattedCheckInDate = new Date(
         startDate.getTime() - startDate.getTimezoneOffset() * 60000
       )
@@ -105,11 +96,9 @@ const RoomDetailsPage = () => {
         .toISOString()
         .split("T")[0];
 
-      // Log the original dates for debugging
       console.log("Formated Check-in Date:", formattedCheckInDate);
       console.log("Formated Check-out Date:", formattedCheckOutDate);
 
-      // Create booking object
       const booking = {
         checkInDate: formattedCheckInDate,
         checkOutDate: formattedCheckOutDate,
@@ -119,11 +108,10 @@ const RoomDetailsPage = () => {
       console.log(booking);
       console.log(checkOutDate);
 
-      // Make booking
       const response = await ApiService.bookRoom(roomId, userId, booking);
       if (response.statusCode === 200) {
         setConfirmationCode(response.bookingConfirmationCode);
-        setShowSuccessModal(true); // Show modal instead of message
+        setShowSuccessModal(true);
       }
     } catch (error) {
       setErrorMessage(error.response?.data?.message || error.message);
@@ -133,7 +121,7 @@ const RoomDetailsPage = () => {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
-    navigate("/profile"); // Navigate to profile page
+    navigate("/profile");
   };
   const handleCloseError = () => {
     setErrorMessage("");
@@ -195,12 +183,7 @@ const RoomDetailsPage = () => {
       <div className="booking-info">
         <div className="booking-buttons">
           {!showDatePicker && (
-            <Button
-              className="book-now-button"
-              onClick={() => setShowDatePicker(true)}
-            >
-              Book Now
-            </Button>
+            <Button onClick={() => setShowDatePicker(true)}>Book Now</Button>
           )}
         </div>
         {showDatePicker && (
@@ -262,10 +245,7 @@ const RoomDetailsPage = () => {
                 />
               </div>
               {showCheckButton && (
-                <Button
-                  className="confirm-booking"
-                  onClick={handleConfirmBooking}
-                >
+                <Button onClick={handleConfirmBooking}>
                   Check Availability & Price
                 </Button>
               )}
@@ -276,7 +256,7 @@ const RoomDetailsPage = () => {
           <div className="total-price">
             <p>Total Price: ${totalPrice}</p>
             <p>Total Guests: {totalGuests}</p>
-            <Button onClick={acceptBooking} className="accept-booking">
+            <Button className="danger" onClick={acceptBooking}>
               Accept Booking
             </Button>
           </div>

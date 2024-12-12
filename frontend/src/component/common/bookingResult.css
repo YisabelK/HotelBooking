@@ -1,6 +1,6 @@
 .booking-results {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -15,16 +15,6 @@
 
 .booking-result-item:hover {
   transform: translateY(-5px);
-}
-
-.booking-result-item p {
-  margin: 8px 0;
-  font-size: 1em;
-  color: #666;
-}
-
-.booking-result-item p strong {
-  color: #333;
 }
 
 .edit-link {

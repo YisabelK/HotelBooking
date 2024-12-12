@@ -107,7 +107,7 @@ const EditBookingPage = () => {
             <p>No room details available</p>
           )}
           <Button
-            className="acheive-booking"
+            className="danger"
             onClick={() => acheiveBooking(bookingDetails.id)}
           >
             Achieve Booking

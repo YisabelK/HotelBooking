@@ -56,15 +56,13 @@ const AllRoomsPage = () => {
       const filtered = rooms.filter((room) => room.roomType === type);
       setFilteredRooms(filtered);
     }
-    setCurrentPage(1); // Reset to first page after filtering
+    setCurrentPage(1);
   };
 
-  // Pagination
   const indexOfLastRoom = currentPage * roomsPerPage;
   const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
   const currentRooms = filteredRooms.slice(indexOfFirstRoom, indexOfLastRoom);
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (

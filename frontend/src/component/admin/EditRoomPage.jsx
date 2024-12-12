@@ -4,6 +4,7 @@ import ApiService from "../../service/ApiService";
 import "./editRoomPage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
+import FormGroup from "../../utils/FormGroup";
 
 const EditRoomPage = () => {
   const { roomId } = useParams();
@@ -119,7 +120,7 @@ const EditRoomPage = () => {
         />
       )}
       <div className="edit-room-form">
-        <div className="form-group">
+        <FormGroup>
           {preview ? (
             <img
               src={preview}
@@ -145,9 +146,9 @@ const EditRoomPage = () => {
           <label htmlFor="room-photo-input" className="file-upload-button">
             Choose Photo
           </label>
-        </div>
-        <div className="form-group">
-          <label>Room Type</label>
+        </FormGroup>
+
+        <FormGroup label="Room Type">
           <select
             name="roomType"
             value={roomDetails.roomType}
@@ -160,9 +161,9 @@ const EditRoomPage = () => {
               </option>
             ))}
           </select>
-        </div>
-        <div className="form-group">
-          <label>Room Price</label>
+        </FormGroup>
+
+        <FormGroup label="Room Price">
           <input
             type="number"
             name="roomPrice"
@@ -171,20 +172,19 @@ const EditRoomPage = () => {
             min="0"
             step="0.01"
           />
-        </div>
-        <div className="form-group">
-          <label>Room Description</label>
+        </FormGroup>
+
+        <FormGroup label="Room Description">
           <textarea
             name="roomDescription"
             value={roomDetails.roomDescription}
             onChange={handleChange}
           ></textarea>
-        </div>
+        </FormGroup>
+
         <div className="button-container">
-          <Button className="update-button" onClick={handleUpdate}>
-            Update Room
-          </Button>
-          <Button className="delete-button" onClick={handleDelete}>
+          <Button onClick={handleUpdate}>Update Room</Button>
+          <Button className="danger" onClick={handleDelete}>
             Delete Room
           </Button>
         </div>

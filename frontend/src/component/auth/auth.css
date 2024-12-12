@@ -1,6 +1,13 @@
-/* Common styles for auth pages */
 .auth-container {
   max-width: 400px;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f3e9d3;
+  margin: 20px auto 50px auto;
+}
+.auth-container-register {
+  max-width: 700px;
   padding: 20px;
   border: none;
   border-radius: 5px;
@@ -31,7 +38,6 @@
   align-items: center;
 }
 
-/* 주소 입력 폼 스타일 */
 .address-group,
 .birth-gender-row {
   margin: 20px 0;

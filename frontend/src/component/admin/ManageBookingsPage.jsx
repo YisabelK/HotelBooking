@@ -4,6 +4,7 @@ import ApiService from "../../service/ApiService";
 import Pagination from "../common/Pagination";
 import "./manageBookingsPage.css";
 import Button from "../../utils/Button";
+import Field from "../../utils/Field";
 
 const ManageBookingsPage = () => {
   const [bookings, setBookings] = useState([]);
@@ -78,24 +79,18 @@ const ManageBookingsPage = () => {
         {currentBookings.map((booking) => (
           <div key={booking.id} className="booking-result-item">
             <div className="booking-item-info">
-              <p>
-                <strong>Booking Code:</strong> {booking.bookingConfirmationCode}
-              </p>
-              <p>
-                <strong>Total Guests:</strong> {booking.totalNumOfGuest}
-              </p>
+              <Field
+                label="Booking Code"
+                value={booking.bookingConfirmationCode}
+              />
+              <Field label="Total Guests" value={booking.totalNumOfGuest} />
             </div>
             <div className="booking-item-date">
-              <p>
-                <strong>Check In Date:</strong> {booking.checkInDate}
-              </p>
-              <p>
-                <strong>Check out Date:</strong> {booking.checkOutDate}
-              </p>
+              <Field label="Check In Date" value={booking.checkInDate} />
+              <Field label="Check out Date" value={booking.checkOutDate} />
             </div>
             <div className="booking-item-button">
               <Button
-                className="edit-room-button"
                 onClick={() =>
                   navigate(
                     `/admin/edit-booking/${booking.bookingConfirmationCode}`

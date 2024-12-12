@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
+import FormGroup from "../../utils/FormGroup";
 import "./addRoomPage.css";
 
 const AddRoomPage = () => {
@@ -116,7 +117,7 @@ const AddRoomPage = () => {
         <Modal type="success" message={success} onClose={handleCloseSuccess} />
       )}
       <div className="add-room-form">
-        <div className="form-group">
+        <FormGroup>
           {preview && (
             <img
               src={preview}
@@ -134,10 +135,9 @@ const AddRoomPage = () => {
           <label htmlFor="room-photo-input" className="file-upload-button">
             Choose Photo
           </label>
-        </div>
+        </FormGroup>
 
-        <div className="form-group">
-          <label>Room Type</label>
+        <FormGroup label="Room Type">
           <select value={roomDetails.roomType} onChange={handleRoomTypeChange}>
             <option value="">Select a room type</option>
             {roomTypes.map((type) => (
@@ -156,27 +156,28 @@ const AddRoomPage = () => {
               onChange={handleChange}
             />
           )}
-        </div>
-        <div className="form-group">
-          <label>Room Price</label>
+        </FormGroup>
+
+        <FormGroup label="Room Price">
           <input
-            type="text"
+            type="number"
             name="roomPrice"
             value={roomDetails.roomPrice}
             onChange={handleChange}
+            min="0"
+            step="0.01"
           />
-        </div>
-        <div className="form-group">
-          <label>Room Description</label>
+        </FormGroup>
+
+        <FormGroup label="Room Description">
           <textarea
             name="roomDescription"
             value={roomDetails.roomDescription}
             onChange={handleChange}
           ></textarea>
-        </div>
-        <Button className="update-button" onClick={addRoom}>
-          Add Room
-        </Button>
+        </FormGroup>
+
+        <Button onClick={addRoom}>Add Room</Button>
       </div>
     </div>
   );

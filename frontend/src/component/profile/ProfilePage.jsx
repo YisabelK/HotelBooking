@@ -4,6 +4,7 @@ import ApiService from "../../service/ApiService";
 import ErrorModal from "../../utils/Modal";
 import "./profilePage.css";
 import Button from "../../utils/Button";
+import Field from "../../utils/Field";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -46,25 +47,25 @@ const ProfilePage = () => {
         {bookings.length > 0 ? (
           bookings.map((booking) => (
             <div key={booking.id} className="booking-item">
-              <p>
-                <strong>Booking Code:</strong> {booking.bookingConfirmationCode}
-              </p>
-              <p>
-                <strong>Check-in Date:</strong>{" "}
-                {new Date(booking.checkInDate).toLocaleDateString()}
-              </p>
-              <p>
-                <strong>Check-out Date:</strong>{" "}
-                {new Date(booking.checkOutDate).toLocaleDateString()}
-              </p>
+              <Field
+                label="Booking Code"
+                value={booking.bookingConfirmationCode}
+              />
+              <Field
+                label="Check-in Date"
+                value={new Date(booking.checkInDate).toLocaleDateString()}
+              />
+              <Field
+                label="Check-out Date"
+                value={new Date(booking.checkOutDate).toLocaleDateString()}
+              />
               {booking.room && (
                 <>
-                  <p>
-                    <strong>Room Type:</strong> {booking.room.roomType}
-                  </p>
-                  <p>
-                    <strong>Room Price:</strong> ${booking.room.roomPrice}
-                  </p>
+                  <Field label="Room Type" value={booking.room.roomType} />
+                  <Field
+                    label="Room Price"
+                    value={`$${booking.room.roomPrice}`}
+                  />
                   {booking.room.roomPhotoUrl && (
                     <img
                       src={booking.room.roomPhotoUrl}
@@ -101,13 +102,13 @@ const ProfilePage = () => {
         <div className="profile-actions">
           <Button onClick={handleEditProfile}>Edit Profile</Button>
           <Button
-            className={`profile-button ${showUpcoming ? "active" : ""}`}
+            className={`${showUpcoming ? "active" : ""}`}
             onClick={toggleUpcoming}
           >
             Upcoming Bookings ({upcomingBookings.length})
           </Button>
           <Button
-            className={`profile-button ${showPast ? "active" : ""}`}
+            className={`${showPast ? "active" : ""}`}
             onClick={togglePast}
           >
             Past Bookings ({pastBookings.length})
@@ -118,37 +119,25 @@ const ProfilePage = () => {
           <div className="profile-details">
             <h3>My Profile</h3>
             <div className="profile-info">
-              <p>
-                <strong>Email:</strong> {user.email}
-              </p>
-              <p>
-                <strong>Phone:</strong> {user.phoneNumber}
-              </p>
-              <p>
-                <strong>Address:</strong>{" "}
-                {`${user.streetName || ""} ${user.houseNumber || ""}`}
-              </p>
-              <p>
-                <strong>City:</strong> {user.city || ""}
-              </p>
-              <p>
-                <strong>State:</strong> {user.state || ""}
-              </p>
-              <p>
-                <strong>Postal Code:</strong> {user.postalCode || ""}
-              </p>
-              <p>
-                <strong>Country:</strong> {user.country || ""}
-              </p>
-              <p>
-                <strong>Birth Date:</strong>{" "}
-                {user.birthDate
-                  ? new Date(user.birthDate).toLocaleDateString()
-                  : ""}
-              </p>
-              <p>
-                <strong>Gender:</strong> {user.gender || ""}
-              </p>
+              <Field label="Email" value={user.email} />
+              <Field label="Phone" value={user.phoneNumber} />
+              <Field
+                label="Address"
+                value={`${user.streetName || ""} ${user.houseNumber || ""}`}
+              />
+              <Field label="City" value={user.city} />
+              <Field label="State" value={user.state} />
+              <Field label="Postal Code" value={user.postalCode} />
+              <Field label="Country" value={user.country} />
+              <Field
+                label="Birth Date"
+                value={
+                  user.birthDate
+                    ? new Date(user.birthDate).toLocaleDateString()
+                    : ""
+                }
+              />
+              <Field label="Gender" value={user.gender} />
             </div>
           </div>
         )}
