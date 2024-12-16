@@ -24,7 +24,7 @@ const AdminPage = () => {
   return (
     <div className="admin-page">
       <h1 className="welcome-message">Welcome, {adminName}</h1>
-      <div className="admin-actions">
+      <div className="form-button-container">
         <Button onClick={() => navigate("/admin/manage-rooms")}>
           Manage Rooms
         </Button>

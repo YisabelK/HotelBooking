@@ -181,7 +181,7 @@ const RoomDetailsPage = () => {
         </div>
       )}
       <div className="booking-info">
-        <div className="booking-buttons">
+        <div className="form-button-container">
           {!showDatePicker && (
             <Button onClick={() => setShowDatePicker(true)}>Book Now</Button>
           )}

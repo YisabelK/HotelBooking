@@ -89,7 +89,7 @@ const ManageBookingsPage = () => {
               <Field label="Check In Date" value={booking.checkInDate} />
               <Field label="Check out Date" value={booking.checkOutDate} />
             </div>
-            <div className="booking-item-button">
+            <div className="form-button-container">
               <Button
                 onClick={() =>
                   navigate(
