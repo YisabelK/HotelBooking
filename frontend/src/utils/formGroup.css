@@ -23,10 +23,10 @@
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   font-size: 0.9em;
-  background-color: #f8f8f8;
+  background-color: var(--background-color);
   transition: all 0.3s ease;
 }
 

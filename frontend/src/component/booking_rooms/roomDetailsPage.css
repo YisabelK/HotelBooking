@@ -47,8 +47,8 @@
 
 .book-now-button,
 .go-back-button {
-  background-color: #a09080;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--background-color);
   border: none;
   padding: 8px 16px;
   border-radius: 5px;
@@ -60,7 +60,7 @@
 
 .book-now-button:hover,
 .go-back-button:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--accent-color);
 }
 
 .room-details-image {
@@ -85,12 +85,12 @@
 
 .booking-number {
   font-weight: bold;
-  color: #333;
+  color: var(--text-color);
 }
 
 .booking-text {
   font-style: italic;
-  color: #666;
+  color: var(--text-color);
 }
 
 .date-picker-container {
@@ -105,15 +105,15 @@
 .detail-search-field {
   width: 100% !important;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-color);
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .confirm-booking {
-  background-color: var(--secondary-color);
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--background-color);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -132,28 +132,28 @@
   align-items: center;
   justify-content: space-between;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-color);
   border-radius: 8px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .guest-div label {
   font-weight: 500;
-  color: #666;
+  color: var(--text-color);
 }
 
 .guest-div input[type="number"] {
   width: 100px;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   text-align: center;
 }
 
 .confirm-booking {
-  background-color: #a09080;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--background-color);
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -162,12 +162,12 @@
 }
 
 .confirm-booking:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--accent-color);
 }
 
 .booking-success-message {
   text-align: center;
-  color: #45a049;
+  color: var(--success-color);
   font-weight: 800;
   font-size: 16px;
 }

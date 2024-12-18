@@ -10,12 +10,12 @@
   align-items: center;
   margin: 20px 10px;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
   gap: 20px;
   width: 100%;
   box-sizing: border-box;
-  background: #fff;
+  background: var(--background-color);
 }
 
 .booking-item-info,

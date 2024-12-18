@@ -11,12 +11,12 @@
 /* Variants */
 .custom-button.primary {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--background-color);
 }
 
 .custom-button.danger {
-  background-color: #dc3545;
-  color: white;
+  background-color: var(--error-color);
+  color: var(--background-color);
 }
 
 .custom-button:hover:not(:disabled) {
@@ -30,8 +30,12 @@
 }
 
 button[type="submit"] {
-  background: linear-gradient(to right, var(--primary-color), #8b7355);
-  color: white;
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: var(--background-color);
   padding: 12px 24px;
   border: none;
   border-radius: 4px;
@@ -44,7 +48,11 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
   transform: translateY(-2px);
-  background: linear-gradient(to right, #8b7355, #6d5a43);
+  background: linear-gradient(
+    to right,
+    var(--primary-color),
+    var(--secondary-color)
+  );
 }
 
 @media (max-width: 768px) {

@@ -26,24 +26,6 @@
   width: 100%;
 }
 
-.update-button,
-.delete-button {
-  flex: 1;
-  padding: 12px;
-  background-color: #a09080;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.update-button:hover,
-.delete-button:hover {
-  background-color: #8b7b6b;
-}
-
 @media (max-width: 768px) {
   .edit-room-container {
     margin: 20px;
@@ -62,8 +44,8 @@
 .file-upload-button {
   width: 100%;
   padding: 12px;
-  background-color: #a09080;
-  color: white !important;
+  background-color: var(--primary-color);
+  color: var(--background-color) !important;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -72,7 +54,6 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
 .file-upload-button:hover {
-  background-color: #8b7b6b;
+  transform: translateY(-2px);
 }

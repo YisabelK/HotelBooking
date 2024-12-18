@@ -6,7 +6,7 @@
 
 .find-booking-page h2 {
   text-align: center;
-  color: #a09080;
+  color: var(--primary-color);
   margin-bottom: 30px;
   font-size: 2em;
 }
@@ -25,26 +25,26 @@
   max-width: 400px;
   padding: 12px;
   font-size: 16px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   transition: border-color 0.3s ease;
 }
 
 .search-container input[type="text"]:focus {
   outline: none;
-  border-color: #a09080;
+  border-color: var(--primary-color);
 }
 
 .booking-details {
   margin-top: 30px;
-  border: 1px solid #eee;
+  border: 1px solid var(--primary-color);
   border-radius: 8px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: var(--background-color);
 }
 
 .booking-details h3 {
-  color: #a09080;
+  color: var(--primary-color);
   margin: 20px 0 15px 0;
   font-size: 1.5em;
 }
@@ -52,7 +52,7 @@
 .booking-details p {
   margin: 10px 0;
   font-size: 1.1em;
-  color: #666;
+  color: var(--text-color);
 }
 
 .booking-details img {
@@ -64,7 +64,7 @@
 
 hr {
   border: none;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--primary-color);
   margin: 20px 0;
 }
 
@@ -75,7 +75,7 @@ hr {
 }
 
 .booking-intro h2 {
-  color: #a09080;
+  color: var(--primary-color);
   font-size: 2.5em;
   margin-bottom: 30px;
   font-weight: 600;
@@ -90,13 +90,13 @@ hr {
 
 .booking-icon {
   font-size: 2.5em;
-  color: #a09080;
+  color: var(--primary-color);
   margin-bottom: 20px;
 }
 
 .booking-prompt {
   font-size: 1.2em;
-  color: #4c453d;
+  color: var(--secondary-color);
   margin-bottom: 15px;
   font-weight: 500;
   line-height: 1.4;
@@ -104,7 +104,7 @@ hr {
 
 .booking-subtext {
   font-size: 0.9em;
-  color: #666;
+  color: var(--text-color);
   font-style: italic;
 }
 

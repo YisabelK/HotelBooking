@@ -8,7 +8,7 @@
   height: auto;
   min-height: 25vh;
   margin: 20px auto;
-  border: 1px solid #ccc;
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
   overflow: hidden;
   display: flex;
@@ -37,7 +37,7 @@
 }
 
 .room-details h3 {
-  color: #a09080;
+  color: var(--primary-color);
 }
 
 .room-detail-loading {
@@ -45,7 +45,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-top: 20px;
-  color: #666;
+  color: var(--text-color);
 }
 .book-now-div {
   display: flex;
@@ -59,8 +59,8 @@
 .book-now-button,
 .edit-room-button {
   padding: 5px 10px;
-  background-color: #a09080;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--background-color);
   border: none;
   cursor: pointer;
   font-weight: 600;
@@ -119,7 +119,7 @@
 }
 
 .room-card {
-  background: #fff;
+  background: var(--background-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;

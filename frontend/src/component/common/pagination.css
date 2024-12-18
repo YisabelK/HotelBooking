@@ -15,9 +15,9 @@
 }
 
 .pagination-button {
-  background-color: #fff;
-  color: #a09080;
-  border: 1px solid #a09080;
+  background-color: var(--background-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
   border-radius: 5px;
   padding: 8px 12px;
   cursor: pointer;
@@ -26,10 +26,10 @@
 
 .pagination-button:hover {
   background-color: var(--secondary-color);
-  color: #fff;
+  color: var(--background-color);
 }
 
 .current-page {
-  background-color: #a09080;
-  color: #fff;
+  background-color: var(--primary-color);
+  color: var(--background-color);
 }

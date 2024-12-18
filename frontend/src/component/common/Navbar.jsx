@@ -50,7 +50,9 @@ function Navbar() {
       </div>
       <div className="navbar-brand">
         <NavLink to="/home">The Han</NavLink>
-        <p>Hotels & Resorts</p>
+        <a href="/home">
+          <p>Hotels & Resorts</p>
+        </a>
       </div>
       <ul className="navbar-ul">
         <li>

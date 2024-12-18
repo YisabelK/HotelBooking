@@ -1,158 +1,125 @@
 .footer {
-  background-color: #f1e3c4;
-  color: #4c453d;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  padding: 40px 70px 20px;
-  margin-top: auto;
-  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  padding: 50px;
+  color: var(--text-color-light);
+  background-color: var(--background-color);
+}
+.footer > * {
+  flex: 1 100%;
+}
+.footer-logo {
+  flex-flow: column;
+  align-items: start;
+  justify-content: start;
+  margin-right: 1.25em;
+  margin-bottom: 2em;
+}
+/* .footer-logo {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid #ddd;
+  align-items: center;
+} */
+
+.footer-logo h2 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: left;
+  color: var(--secondary-color);
+  /* font-weight: bold; 400 */
+  /* margin-bottom: 5px; */
+}
+
+.footer-logo p {
+  font-size: 14px;
+  /* padding-right: 20%; */
+  color: var(--text-color);
+}
+
+.footer ul {
+  list-style: none;
+  padding-left: 0;
+}
+.footer li {
+  line-height: 2em;
+}
+.footer a {
+  text-decoration: none;
 }
 
 .footer-content {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 30px;
+  flex-flow: row wrap;
+  text-align: left;
+  /* font-size: 88%;
+  text-align: left;
+  margin-bottom: 30px; */
 }
-
-.footer-brand h2 {
-  font-size: 24px;
+.footer-content h2 {
+  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 5px;
-  color: #4c453d;
+  text-align: left;
+  color: var(--secondary-color);
 }
-
-.footer-brand p {
-  font-size: 14px;
-  color: #666;
+.footer-content > * {
+  flex: 1 50%;
+  margin-right: 1.25em;
 }
-
-.footer-links {
-  display: flex;
-  justify-content: space-between;
-  flex-grow: 1;
-  margin-left: 50px;
+.box a {
+  color: var(--text-color-light);
 }
-
-.footer-links div {
-  margin-right: 40px;
-}
-
-.footer-links p {
-  margin: 5px 0;
-  color: #666;
-}
-
-.footer-menu {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-menu a {
-  text-decoration: none;
-  color: #666;
-  margin: 5px 0;
-  transition: color 0.3s;
-}
-
-.footer-menu a:hover {
-  color: #ff7f50;
-}
-
-.footer-sns {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.footer-sns span {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
+.box a:hover {
+  color: var(--accent-color);
 }
 
 .sns-icons {
   display: flex;
-  gap: 15px;
+  gap: 5px;
+}
+.sns-icons a {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
-.sns-icon {
-  text-decoration: none;
-  color: #666;
-  transition: color 0.3s;
-}
-
-.sns-icon:hover {
-  color: #ff7f50;
+.sns-icons a svg:hover {
+  fill: var(--accent-color);
 }
 
 .footer-bottom {
   text-align: center;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
+  color: var(--text-color);
+  padding-top: 50px;
 }
 
-.footer-copyright {
-  color: #666;
-  font-size: 12px;
+@media screen and (min-width: 600px) {
+  .footer-content > * {
+    flex: 1;
+  }
+  .footer-logo {
+    flex: 1 0px;
+  }
+  .footer-content {
+    flex: 2 0px;
+  }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .footer {
-    padding: 30px 20px 15px;
+    padding: 15px;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
   }
-
   .footer-content {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
     width: 100%;
+    text-align: center;
   }
-
-  .footer-brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  .footer-content h2,
+  .footer-logo h2 {
+    text-align: center;
   }
-
-  .footer-links {
-    margin-left: 0;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .footer-links div {
-    margin-right: 0;
-    margin-bottom: 15px;
-    width: 100%;
-  }
-
-  .footer-menu {
-    align-items: center;
-    width: 100%;
-  }
-
-  .footer-sns {
-    align-items: center;
-    width: 100%;
-  }
-
-  .sns-icons {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .footer-bottom {
-    width: 100%;
-  }
-}
-
-.phone-number {
-  white-space: nowrap;
 }

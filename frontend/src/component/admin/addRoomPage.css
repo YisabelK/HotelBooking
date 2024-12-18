@@ -38,8 +38,8 @@
 .file-upload-button {
   width: 100%;
   padding: 12px;
-  background-color: #a09080;
-  color: white !important;
+  background-color: var(--primary-color);
+  color: var(--background-color) !important;
   border: none;
   border-radius: 4px;
   font-size: 16px;
@@ -50,5 +50,5 @@
 }
 
 .file-upload-button:hover {
-  background-color: #8b7b6b;
+  transform: translateY(-2px);
 }

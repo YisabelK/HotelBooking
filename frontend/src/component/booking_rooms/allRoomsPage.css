@@ -25,7 +25,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #fff;
+  color: var(--background-color);
   font-size: 2.5em;
   z-index: 1;
 }
@@ -39,19 +39,19 @@
 }
 
 .all-room-filter-div label {
-  color: #4c453d;
+  color: var(--secondary-color);
   font-weight: 600;
   white-space: nowrap;
 }
 
 .all-room-filter-div select {
   padding: 0.8rem 1rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
   font-size: 1rem;
   min-width: 200px;
-  background-color: #fff;
-  color: #4c453d;
+  background-color: var(--background-color);
+  color: var(--secondary-color);
   cursor: pointer;
   transition: all 0.3s ease;
   appearance: none;
@@ -62,12 +62,12 @@
 }
 
 .all-room-filter-div select:hover {
-  border-color: #a09080;
+  border-color: var(--primary-color);
 }
 
 .all-room-filter-div select:focus {
   outline: none;
-  border-color: #a09080;
+  border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(160, 144, 128, 0.2);
 }
 

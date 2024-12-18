@@ -6,12 +6,12 @@
 
 .contact-container h1 {
   text-align: center;
-  color: #4c453d;
+  color: var(--secondary-color);
   margin-bottom: 30px;
 }
 
 .contact-form {
-  background-color: #f1e3c4;
+  background-color: var(--background-color);
   padding: 25px;
   border-radius: 8px;
   max-width: 600px;
@@ -19,7 +19,7 @@
 }
 
 .contact-form h2 {
-  color: #4c453d;
+  color: var(--secondary-color);
   margin-bottom: 20px;
   font-size: 1.5em;
 }

@@ -6,7 +6,7 @@
 }
 
 .booking-result-item {
-  background: #fff;
+  background: var(--background-color);
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
@@ -21,8 +21,8 @@
   display: inline-block;
   margin-top: 10px;
   padding: 8px 15px;
-  background: #a09080;
-  color: #fff;
+  background: var(--primary-color);
+  color: var(--background-color);
   border-radius: 4px;
   text-decoration: none;
   font-weight: bold;
@@ -30,5 +30,5 @@
 }
 
 .edit-link:hover {
-  background-color: rgb(34, 80, 128);
+  background-color: var(--accent-color);
 }
