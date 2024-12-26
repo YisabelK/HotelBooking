@@ -1,5 +1,6 @@
 package com.hotelbooking.HotelBooking.service.impl;
 
+import com.hotelbooking.HotelBooking.common.GlobalStrings;
 import com.hotelbooking.HotelBooking.dto.Response;
 import com.hotelbooking.HotelBooking.dto.RoomDTO;
 import com.hotelbooking.HotelBooking.entity.Room;
@@ -10,7 +11,6 @@ import com.hotelbooking.HotelBooking.service.AWSS3Service;
 import com.hotelbooking.HotelBooking.service.interfac.IRoomService;
 import com.hotelbooking.HotelBooking.utils.Utils;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,16 +21,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class RoomService implements IRoomService {
 
-    @Autowired
-    private RoomRepository roomRepository;
-    @Autowired
-    private AWSS3Service awss3Service;
+    private final RoomRepository roomRepository;
+    private final AWSS3Service awss3Service;
+
+    public RoomService(RoomRepository roomRepository, AWSS3Service awss3Service) {
+        this.roomRepository = roomRepository;
+        this.awss3Service = awss3Service;
+    }
 
     /*
      * Add a new room
@@ -55,7 +57,7 @@ public class RoomService implements IRoomService {
             Room savedRoom = roomRepository.save(room);
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(savedRoom);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setRoom(roomDTO);
 
 
@@ -79,7 +81,7 @@ public class RoomService implements IRoomService {
                 roomTypeMap.put("displayName", type.getDisplayName());
                 return roomTypeMap;
             })
-            .collect(Collectors.toList());
+            .toList();
     }
 
     /*
@@ -93,7 +95,7 @@ public class RoomService implements IRoomService {
             List<Room> roomList = roomRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setRoomList(roomDTOList);
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -112,17 +114,16 @@ public class RoomService implements IRoomService {
         Response response = new Response();
 
         try {
-            roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not found"));
-            roomRepository.deleteById(roomId);
+            Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new OurException(GlobalStrings.ROOM_NOT_FOUND));
+            roomRepository.delete(room);
             response.setStatusCode(200);
-            response.setMessage("successful");
-
+            response.setMessage(GlobalStrings.SUCCESSFUL);
 
         } catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error deleting a room " + e.getMessage());
         }
@@ -147,7 +148,7 @@ public class RoomService implements IRoomService {
             if(photo != null && !photo.isEmpty()){
                 imageUrl = awss3Service.saveImageToS3(photo);
             }
-            Room room = roomRepository.findById(roomId).orElseThrow(()-> new OurException("Room Not found"));
+            Room room = roomRepository.findById(roomId).orElseThrow(()-> new OurException(GlobalStrings.ROOM_NOT_FOUND));
 
             if(roomType != null) room.setRoomType(roomType);
             if(roomPrice != null) room.setRoomPrice(roomPrice);
@@ -158,7 +159,7 @@ public class RoomService implements IRoomService {
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTO(updatedRoom);
 
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setRoom(roomDTO);
 
         } catch (OurException e) {
@@ -182,11 +183,11 @@ public class RoomService implements IRoomService {
         Response response = new Response();
 
         try {
-            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException("Room Not found"));
+            Room room = roomRepository.findById(roomId).orElseThrow(() -> new OurException(GlobalStrings.ROOM_NOT_FOUND));
             RoomDTO roomDTO = Utils.mapRoomEntityToRoomDTOPlusBookings(room);
 
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setRoom(roomDTO);
 
 
@@ -217,7 +218,7 @@ public class RoomService implements IRoomService {
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(availableRooms);
             
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setRoomList(roomDTOList);
         } catch (IllegalArgumentException e) {
             response.setStatusCode(400);
@@ -242,7 +243,7 @@ public class RoomService implements IRoomService {
             List<RoomDTO> roomDTOList = Utils.mapRoomListEntityToRoomListDTO(roomList);
 
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setRoomList(roomDTOList);
 
 

@@ -1,8 +1,10 @@
 package com.hotelbooking.HotelBooking.service.impl;
 
+import com.hotelbooking.HotelBooking.common.GlobalStrings;
 import com.hotelbooking.HotelBooking.dto.BookingDTO;
 import com.hotelbooking.HotelBooking.dto.Response;
 import com.hotelbooking.HotelBooking.entity.Booking;
+import com.hotelbooking.HotelBooking.entity.BookingStatus;
 import com.hotelbooking.HotelBooking.entity.Room;
 import com.hotelbooking.HotelBooking.entity.User;
 import com.hotelbooking.HotelBooking.exception.OurException;
@@ -11,7 +13,6 @@ import com.hotelbooking.HotelBooking.repo.RoomRepository;
 import com.hotelbooking.HotelBooking.repo.UserRepository;
 import com.hotelbooking.HotelBooking.service.interfac.IBookingService;
 import com.hotelbooking.HotelBooking.utils.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -20,13 +21,17 @@ import java.util.List;
 @Service
 public class BookingService implements IBookingService {
 
-    @Autowired
-    private BookingRepository bookingRepository;
-    @Autowired
-    private RoomRepository roomRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final BookingRepository bookingRepository;
+    private final RoomRepository roomRepository;
+    private final UserRepository userRepository;
 
+    public BookingService(BookingRepository bookingRepository,
+                         RoomRepository roomRepository,
+                         UserRepository userRepository) {
+        this.bookingRepository = bookingRepository;
+        this.roomRepository = roomRepository;
+        this.userRepository = userRepository;
+    }
 
     /*
      * Save a booking
@@ -61,11 +66,12 @@ public class BookingService implements IBookingService {
 
             bookingRequest.setRoom(room);
             bookingRequest.setUser(user);
+            bookingRequest.setStatus(BookingStatus.PENDING);
             String bookingConfirmationCode = Utils.generateRandomConfirmationCode(10);
             bookingRequest.setBookingConfirmationCode(bookingConfirmationCode);
             bookingRepository.save(bookingRequest);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setBookingConfirmationCode(bookingConfirmationCode);
 
         } catch (OurException e) {
@@ -74,6 +80,36 @@ public class BookingService implements IBookingService {
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error Saving a booking: " + e.getMessage());
+        }
+        return response;
+    }
+
+    /*
+     * Update a booking status
+     * @param bookingId
+     * @param status
+     * @return Response
+     */
+    @Override
+    public Response updateBookingStatus(Long bookingId, BookingStatus status) {
+        Response response = new Response();
+        try {
+            Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new OurException("Booking does Not Exist"));
+            
+            booking.setStatus(status);
+            Booking updatedBooking = bookingRepository.save(booking);
+            BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTO(updatedBooking);
+            
+            response.setStatusCode(200);
+            response.setMessage(GlobalStrings.SUCCESSFUL);
+            response.setBooking(bookingDTO);
+        } catch (OurException e) {
+            response.setStatusCode(400);
+            response.setMessage(e.getMessage());
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error Updating Booking Status: " + e.getMessage());
         }
         return response;
     }
@@ -90,7 +126,7 @@ public class BookingService implements IBookingService {
             Booking booking = bookingRepository.findByBookingConfirmationCode(confirmationCode).orElseThrow(() -> new OurException("Booking Not Found"));
             BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTO(booking);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setBooking(bookingDTO);
 
         } catch (OurException e) {
@@ -114,7 +150,7 @@ public class BookingService implements IBookingService {
             List<Booking> bookingList = bookingRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
             List<BookingDTO> bookingDTOList = Utils.mapBookingListEntityToBookingListDTO(bookingList);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setBookingList(bookingDTOList);
 
         } catch (OurException e) {
@@ -128,6 +164,26 @@ public class BookingService implements IBookingService {
     }
 
     /*
+     * Get all pending bookings
+     * @return Response
+     */
+    @Override
+    public Response getAllPendingBookings() {
+        Response response = new Response();
+        try {
+            List<Booking> bookingList = bookingRepository.findByStatus(BookingStatus.PENDING);
+            List<BookingDTO> bookingDTOList = Utils.mapBookingListEntityToBookingListDTO(bookingList);
+            response.setStatusCode(200);
+            response.setMessage(GlobalStrings.SUCCESSFUL);
+            response.setBookingList(bookingDTOList);
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error getting pending bookings: " + e.getMessage());
+        }
+        return response;
+    }
+
+    /*
      * Cancel a booking
      * @param bookingId
      * @return Response
@@ -136,11 +192,11 @@ public class BookingService implements IBookingService {
     public Response cancelBooking(Long bookingId) {
         Response response = new Response();
         try {
-            bookingRepository.findById(bookingId).orElseThrow(() -> new OurException("Booking does Not Exist"));
-            bookingRepository.deleteById(bookingId);
+            Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new OurException("Booking does Not Exist"));
+            bookingRepository.delete(booking);
             response.setStatusCode(200);
-            response.setMessage("successful");
-
+            response.setMessage(GlobalStrings.SUCCESSFUL);
         } catch (OurException e) {
             response.setStatusCode(400);
             response.setMessage(e.getMessage());

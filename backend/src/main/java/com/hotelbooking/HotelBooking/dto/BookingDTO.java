@@ -1,6 +1,7 @@
 package com.hotelbooking.HotelBooking.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.hotelbooking.HotelBooking.entity.BookingStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -20,4 +21,5 @@ public class BookingDTO {
     private String bookingConfirmationCode;
     private UserDTO user;
     private RoomDTO room;
+    private BookingStatus status;
 }

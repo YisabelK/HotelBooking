@@ -1,11 +1,11 @@
 package com.hotelbooking.HotelBooking.controller;
 
+import com.hotelbooking.HotelBooking.dto.BookingUpdateDTO;
 import com.hotelbooking.HotelBooking.dto.Response;
 import com.hotelbooking.HotelBooking.entity.Booking;
 import com.hotelbooking.HotelBooking.service.interfac.IBookingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Booking Controller", description = "Booking API")
 @RestController
 @RequestMapping("/bookings")
-
 public class BookingController {
-    @Autowired
-    private IBookingService bookingService;
+    
+    private final IBookingService bookingService;
+
+    public BookingController(IBookingService bookingService) {
+        this.bookingService = bookingService;
+    }
 
     @Operation(summary = "Book a room", description = "Book a room to the database")
     @PostMapping("/book-room/{roomId}/{userId}")
@@ -25,6 +28,25 @@ public class BookingController {
                                                  @PathVariable Long userId,
                                                  @RequestBody Booking bookingRequest){
         Response response = bookingService.saveBooking(roomId, userId, bookingRequest);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @PutMapping("/update-status")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Update booking status", description = "Update a booking status in the database")
+    public ResponseEntity<Response> updateBookingStatus(@RequestBody BookingUpdateDTO bookingUpdateDTO) {
+        Response response = bookingService.updateBookingStatus(
+                bookingUpdateDTO.getBookingId(),
+                bookingUpdateDTO.getStatus()
+        );
+        return ResponseEntity.status(response.getStatusCode()).body(response);
+    }
+
+    @Operation(summary = "Get all pending bookings", description = "Get all pending bookings from the database")
+    @GetMapping("/pending")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<Response> getAllPendingBookings() {
+        Response response = bookingService.getAllPendingBookings();
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 

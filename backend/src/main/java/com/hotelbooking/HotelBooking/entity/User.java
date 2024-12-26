@@ -1,5 +1,6 @@
 package com.hotelbooking.HotelBooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,15 +9,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Data
-@Entity
+@Entity 
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -48,7 +53,8 @@ public class User implements UserDetails {
     @NotNull(message = "Birth Date is required")
     private LocalDate birthDate;
     private String gender;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "user-bookings")
     private List<Booking> bookings = new ArrayList<>();
 
     @Override
@@ -83,5 +89,27 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeObject(id);
+        out.writeObject(email);
+        out.writeObject(name);
+        out.writeObject(phoneNumber);
+        out.writeObject(role);
+        out.writeObject(birthDate);
+        out.writeObject(gender);
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        id = (Long) in.readObject();
+        email = (String) in.readObject();
+        name = (String) in.readObject();
+        phoneNumber = (String) in.readObject();
+        role = (String) in.readObject();
+        birthDate = (LocalDate) in.readObject();
+        gender = (String) in.readObject();
     }
 }

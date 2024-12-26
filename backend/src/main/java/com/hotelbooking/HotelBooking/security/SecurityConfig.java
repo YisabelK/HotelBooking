@@ -1,13 +1,11 @@
 package com.hotelbooking.HotelBooking.security;
 
 import com.hotelbooking.HotelBooking.service.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,45 +16,57 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-    @Autowired
-    private JWTAuthFilter jwtAuthFilter;
-
+    private static final String ROLE_ADMIN = "ADMIN";
+    
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/rooms/**").permitAll()
-                        .requestMatchers("/bookings/**").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()
-                        .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/swagger-resources/**").permitAll()
-                        .requestMatchers("/swagger-ui.html").permitAll()
-                        .requestMatchers("/api-docs/**").permitAll()
-                        .anyRequest().authenticated())
-                .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider())
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return httpSecurity.build();
+    public AuthenticationProvider authenticationProvider(CustomUserDetailsService customUserDetailsService) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(customUserDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(customUserDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-
-        return daoAuthenticationProvider;
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            JWTAuthFilter jwtAuthFilter) throws Exception {
+        return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(auth -> auth
+                // Public
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/rooms/all").permitAll()
+                .requestMatchers("/rooms/room-by-id/**").permitAll()
+                .requestMatchers("/rooms/types").permitAll()
+                
+                // Booking
+                .requestMatchers(HttpMethod.POST, "/bookings/book-room/**").authenticated()
+                .requestMatchers("/bookings/pending").hasAuthority(ROLE_ADMIN)
+                .requestMatchers("/bookings/all").hasAuthority(ROLE_ADMIN)
+                .requestMatchers("/bookings/update-status").hasAuthority(ROLE_ADMIN)
+                .requestMatchers("/bookings/get-by-confirmation-code/**").authenticated()
+                .requestMatchers("/bookings/cancel/**").authenticated()
+                
+                // Admin only
+                .requestMatchers("/users/all").hasAuthority(ROLE_ADMIN)
+                .requestMatchers("/rooms/add").hasAuthority(ROLE_ADMIN)
+                .requestMatchers("/rooms/update/**").hasAuthority(ROLE_ADMIN)
+                .requestMatchers("/rooms/delete/**").hasAuthority(ROLE_ADMIN)
+                
+                .anyRequest().authenticated()
+            )
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
     @Bean

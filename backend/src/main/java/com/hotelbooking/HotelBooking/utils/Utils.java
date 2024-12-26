@@ -10,12 +10,15 @@ import com.hotelbooking.HotelBooking.entity.User;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Utils {
     private static final String ALPHANUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
     private static final SecureRandom secureRandom = new SecureRandom();
+
+    private Utils() {
+        // Private constructor to hide implicit public one
+    }
 
     public static String generateRandomConfirmationCode (int length) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -83,6 +86,7 @@ public class Utils {
         bookingDTO.setNumOfChildren(booking.getNumOfChildren());
         bookingDTO.setTotalNumOfGuest(booking.getTotalNumOfGuest());
         bookingDTO.setBookingConfirmationCode(booking.getBookingConfirmationCode());
+        bookingDTO.setStatus(booking.getStatus());
 
         if (booking.getUser() != null) {
             UserDTO userDTO = mapUserEntityToUserDTO(booking.getUser());
@@ -114,8 +118,8 @@ public class Utils {
 
     if(room.getBookings() != null) {
         roomDTO.setBookings(room.getBookings().stream()
-            .map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, true))
-            .collect(Collectors.toList()));
+                .map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, true))
+                .toList());
     }
     return roomDTO;
 }
@@ -148,12 +152,12 @@ public class Utils {
             List<BookingDTO> pastBookings = user.getBookings().stream()
                     .filter(booking -> booking.getCheckOutDate().isBefore(today))
                     .map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false))
-                    .collect(Collectors.toList());
+                    .toList();
 
             List<BookingDTO> upcomingBookings = user.getBookings().stream()
                     .filter(booking -> !booking.getCheckOutDate().isBefore(today))
                     .map(booking -> mapBookingEntityToBookingDTOPlusBookedRooms(booking, false))
-                    .collect(Collectors.toList());
+                    .toList();
 
             userDTO.setPastBookings(pastBookings);
             userDTO.setUpcomingBookings(upcomingBookings);
@@ -202,7 +206,7 @@ public class Utils {
      * @return List<UserDTO>
      */
     public static List<UserDTO> mapUserListEntityToUserListDTO(List<User> userList){
-        return userList.stream().map(Utils::mapUserEntityToUserDTO).collect(Collectors.toList());
+        return userList.stream().map(Utils::mapUserEntityToUserDTO).toList();
     }
 
     /*
@@ -211,7 +215,7 @@ public class Utils {
      * @return List<RoomDTO>
      */
     public static List<RoomDTO> mapRoomListEntityToRoomListDTO(List<Room> roomList){
-        return roomList.stream().map(Utils::mapRoomEntityToRoomDTO).collect(Collectors.toList());
+        return roomList.stream().map(Utils::mapRoomEntityToRoomDTO).toList();
     }
 
     /*
@@ -220,7 +224,7 @@ public class Utils {
      * @return List<BookingDTO>
      */
     public static List<BookingDTO> mapBookingListEntityToBookingListDTO(List<Booking> bookingList){
-        return bookingList.stream().map(Utils::mapBookingEntityToBookingDTO).collect(Collectors.toList());
+        return bookingList.stream().map(Utils::mapBookingEntityToBookingDTO).toList();
     }
 
 }

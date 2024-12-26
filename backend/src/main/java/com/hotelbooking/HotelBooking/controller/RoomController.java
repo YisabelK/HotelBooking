@@ -5,7 +5,6 @@ import com.hotelbooking.HotelBooking.entity.RoomType;
 import com.hotelbooking.HotelBooking.service.interfac.IRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,8 +21,11 @@ import java.util.Map;
 @RequestMapping("/rooms")
 public class RoomController {
 
-    @Autowired
-    private IRoomService roomService;
+    private final IRoomService roomService;
+
+    public RoomController(IRoomService roomService) {
+        this.roomService = roomService;
+    }
 
     @Operation(summary = "Add a new room", description = "Add a new room to the database")
     @PostMapping("/add")

@@ -1,5 +1,6 @@
 package com.hotelbooking.HotelBooking.service.impl;
 
+import com.hotelbooking.HotelBooking.common.GlobalStrings;
 import com.hotelbooking.HotelBooking.dto.LoginRequest;
 import com.hotelbooking.HotelBooking.dto.Response;
 import com.hotelbooking.HotelBooking.dto.UserDTO;
@@ -10,26 +11,31 @@ import com.hotelbooking.HotelBooking.service.interfac.IUserService;
 import com.hotelbooking.HotelBooking.utils.JWTUtils;
 import com.hotelbooking.HotelBooking.utils.Utils;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.util.List;
 
 @Service
 @Transactional
 public class UserService implements IUserService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private JWTUtils jwtUtils;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JWTUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+
+    public UserService(UserRepository userRepository,
+                      PasswordEncoder passwordEncoder,
+                      JWTUtils jwtUtils,
+                      AuthenticationManager authenticationManager) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtils = jwtUtils;
+        this.authenticationManager = authenticationManager;
+    }
 
     /*
      * Register a new user
@@ -65,7 +71,7 @@ public class UserService implements IUserService {
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(savedUser);
             response.setStatusCode(200);
             response.setUser(userDTO);
-            response.setMessage("Registration successful");
+            response.setMessage("Registration " + GlobalStrings.SUCCESSFUL);
             
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -84,19 +90,8 @@ public class UserService implements IUserService {
     public Response login(LoginRequest loginRequest) {
         Response response = new Response();
         try {
-            var user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new OurException("This email does not exist."));
+            User user = authenticateLoginRequest(loginRequest);
             
-            try {
-                authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-                );
-            } catch (BadCredentialsException e) {
-                response.setStatusCode(401);
-                response.setMessage("The password does not match.");
-                return response;
-            }
-
             String accessToken = jwtUtils.generateAccessToken(user);
             String refreshToken = jwtUtils.generateRefreshToken(user);
             
@@ -105,10 +100,10 @@ public class UserService implements IUserService {
             response.setRefreshToken(refreshToken);
             response.setRole(user.getRole());
             response.setExpirationTime("30 minutes");
-            response.setMessage("Login successful");
+            response.setMessage("Login " + GlobalStrings.SUCCESSFUL);
 
         } catch (OurException e) {
-            response.setStatusCode(404);
+            response.setStatusCode(401);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
@@ -128,7 +123,7 @@ public class UserService implements IUserService {
             List<User> userList = userRepository.findAll();
             List<UserDTO> userDTOList = Utils.mapUserListEntityToUserListDTO(userList);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setUserList(userDTOList);
 
         } catch (Exception e){
@@ -147,10 +142,10 @@ public class UserService implements IUserService {
     public Response getUserBookingHistory(String userId) {
         Response response = new Response();
         try {
-            User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException("User Not Found"));
+            User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException(GlobalStrings.USER_NOT_FOUND));
             UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingAndRoom(user);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setUser(userDTO);
 
         }catch (OurException e){
@@ -170,15 +165,13 @@ public class UserService implements IUserService {
      */
     @Override
     public Response deleteUser(String userId) {
-
         Response response = new Response();
-
         try {
-            userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException("User Not Found"));
-            userRepository.deleteById(Long.valueOf(userId));
+            User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new OurException(GlobalStrings.USER_NOT_FOUND));
+            userRepository.delete(user);
             response.setStatusCode(200);
-            response.setMessage("successful");
-
+            response.setMessage(GlobalStrings.SUCCESSFUL);
         } catch (OurException e) {
             response.setStatusCode(404);
             response.setMessage(e.getMessage());
@@ -200,10 +193,10 @@ public class UserService implements IUserService {
         Response response = new Response();
 
         try {
-            User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException("User Not Found"));
+            User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() -> new OurException(GlobalStrings.USER_NOT_FOUND));
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(user);
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setUser(userDTO);
 
         } catch (OurException e) {
@@ -226,14 +219,14 @@ public class UserService implements IUserService {
         Response response = new Response();
 
         try {
-            User user = userRepository.findByEmail(email).orElseThrow(() -> new OurException("User Not Found"));
+            User user = userRepository.findByEmail(email).orElseThrow(() -> new OurException(GlobalStrings.USER_NOT_FOUND));
             UserDTO userDTO = Utils.mapUserEntityToUserDTOPlusUserBookingAndRoom(user);
 
             response.setPastBookings(userDTO.getPastBookings());
             response.setUpcomingBookings(userDTO.getUpcomingBookings());
 
             response.setStatusCode(200);
-            response.setMessage("successful");
+            response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setUser(userDTO);
 
         } catch (OurException e) {
@@ -257,46 +250,10 @@ public class UserService implements IUserService {
         Response response = new Response();
         try {
             User existingUser = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new OurException("User Not Found"));
-
-            if (userRequest.getName() != null && !userRequest.getName().isEmpty()) {
-                existingUser.setName(userRequest.getName());
-            }
-            if (userRequest.getPhoneNumber() != null && !userRequest.getPhoneNumber().isEmpty()) {
-                existingUser.setPhoneNumber(userRequest.getPhoneNumber());
-            }
-            if (userRequest.getStreetName() != null && !userRequest.getStreetName().isEmpty()) {
-                existingUser.setStreetName(userRequest.getStreetName());
-            }
-            if (userRequest.getHouseNumber() != null && !userRequest.getHouseNumber().isEmpty()) {
-                existingUser.setHouseNumber(userRequest.getHouseNumber());
-            }
-            if (userRequest.getPostalCode() != null && !userRequest.getPostalCode().isEmpty()) {
-                existingUser.setPostalCode(userRequest.getPostalCode());
-            }
-            if (userRequest.getCity() != null && !userRequest.getCity().isEmpty()) {
-                existingUser.setCity(userRequest.getCity());
-            }
-            if (userRequest.getState() != null && !userRequest.getState().isEmpty()) {
-                existingUser.setState(userRequest.getState());
-            }
-            if (userRequest.getCountry() != null && !userRequest.getCountry().isEmpty()) {
-                existingUser.setCountry(userRequest.getCountry());
-            }
-            if (userRequest.getBirthDate() != null) {
-                existingUser.setBirthDate(userRequest.getBirthDate());
-            }
-            if (userRequest.getGender() != null && !userRequest.getGender().isEmpty()) {
-                existingUser.setGender(userRequest.getGender());
-            }
-            if (userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()
-                    && !userRequest.getEmail().equals(existingUser.getEmail())) {
-                if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
-                    throw new OurException("Email already exists");
-                }
-                existingUser.setEmail(userRequest.getEmail());
-            }
-
+                    .orElseThrow(() -> new OurException(GlobalStrings.USER_NOT_FOUND));
+            
+            updateUserFields(existingUser, userRequest);
+            
             User updatedUser = userRepository.save(existingUser);
             UserDTO userDTO = Utils.mapUserEntityToUserDTO(updatedUser);
 
@@ -312,5 +269,76 @@ public class UserService implements IUserService {
             response.setMessage("Error updating profile: " + e.getMessage());
         }
         return response;
+    }
+
+    private User authenticateLoginRequest(LoginRequest loginRequest) throws OurException {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+            .orElseThrow(() -> new OurException("This email does not exist."));
+        
+        try {
+            authenticateUser(loginRequest);
+        } catch (BadCredentialsException e) {
+            throw new OurException("The password does not match.");
+        }
+        
+        return user;
+    }
+
+    private void authenticateUser(LoginRequest loginRequest) {
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
+    }
+
+    private void updateUserFields(User existingUser, User userRequest) throws OurException {
+        if (userRequest.getName() != null && !userRequest.getName().isEmpty()) {
+            existingUser.setName(userRequest.getName());
+        }
+        if (userRequest.getPhoneNumber() != null && !userRequest.getPhoneNumber().isEmpty()) {
+            existingUser.setPhoneNumber(userRequest.getPhoneNumber());
+        }
+        updateAddressFields(existingUser, userRequest);
+        updatePersonalFields(existingUser, userRequest);
+        updateEmailIfChanged(existingUser, userRequest);
+    }
+
+    private void updateAddressFields(User existingUser, User userRequest) {
+        if (userRequest.getStreetName() != null && !userRequest.getStreetName().isEmpty()) {
+            existingUser.setStreetName(userRequest.getStreetName());
+        }
+        if (userRequest.getHouseNumber() != null && !userRequest.getHouseNumber().isEmpty()) {
+            existingUser.setHouseNumber(userRequest.getHouseNumber());
+        }
+        if (userRequest.getPostalCode() != null && !userRequest.getPostalCode().isEmpty()) {
+            existingUser.setPostalCode(userRequest.getPostalCode());
+        }
+        if (userRequest.getCity() != null && !userRequest.getCity().isEmpty()) {
+            existingUser.setCity(userRequest.getCity());
+        }
+        if (userRequest.getState() != null && !userRequest.getState().isEmpty()) {
+            existingUser.setState(userRequest.getState());
+        }
+        if (userRequest.getCountry() != null && !userRequest.getCountry().isEmpty()) {
+            existingUser.setCountry(userRequest.getCountry());
+        }
+    }
+
+    private void updatePersonalFields(User existingUser, User userRequest) {
+        if (userRequest.getBirthDate() != null) {
+            existingUser.setBirthDate(userRequest.getBirthDate());
+        }
+        if (userRequest.getGender() != null && !userRequest.getGender().isEmpty()) {
+            existingUser.setGender(userRequest.getGender());
+        }
+    }
+
+    private void updateEmailIfChanged(User existingUser, User userRequest) throws OurException {
+        if (userRequest.getEmail() != null && !userRequest.getEmail().isEmpty()
+                && !userRequest.getEmail().equals(existingUser.getEmail())) {
+            if (userRepository.findByEmail(userRequest.getEmail()).isPresent()) {
+                throw new OurException("Email already exists");
+            }
+            existingUser.setEmail(userRequest.getEmail());
+        }
     }
 }
