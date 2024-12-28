@@ -8,27 +8,27 @@ import com.hotelbooking.HotelBooking.utils.JWTUtils;
 import com.hotelbooking.HotelBooking.service.CustomUserDetailsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Auth Controller", description = "Authentication API")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private IUserService userService;
-    
-    @Autowired
-    private JWTUtils jwtUtils;
-    
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    private final IUserService userService;
+    private final JWTUtils jwtUtils;
+    private final CustomUserDetailsService customUserDetailsService;
+
+    public AuthController(IUserService userService,
+                         JWTUtils jwtUtils,
+                         CustomUserDetailsService customUserDetailsService) {
+        this.userService = userService;
+        this.jwtUtils = jwtUtils;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Operation(summary = "Register a new user", description = "Register a new user to the database")
     @PostMapping("/register")

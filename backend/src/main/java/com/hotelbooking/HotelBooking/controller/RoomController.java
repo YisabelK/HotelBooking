@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Tag(name = "Room Controller", description = "Room API")
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/rooms")
 public class RoomController {
 
