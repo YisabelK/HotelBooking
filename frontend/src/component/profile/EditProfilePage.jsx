@@ -17,7 +17,6 @@ const EditProfilePage = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await ApiService.getUserProfile();
-        console.log("Fetched user data:", response.user);
         setUser(response.user);
       } catch (error) {
         console.error("Error fetching user profile:", error);

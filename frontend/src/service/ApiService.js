@@ -46,7 +46,7 @@ axios.interceptors.response.use(
           axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${accessToken}`;
-          
+
           originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
           return axios(originalRequest);
         }
@@ -242,8 +242,6 @@ export default class ApiService {
   /**BOOKING */
   /* This  saves a new booking to the databse */
   static async bookRoom(roomId, userId, booking) {
-    console.log("USER ID IS: " + userId);
-
     const response = await axios.post(
       `${this.BASE_URL}/bookings/book-room/${roomId}/${userId}`,
       booking,
@@ -263,11 +261,19 @@ export default class ApiService {
   }
 
   /* This  get booking by the cnfirmation code */
-  static async getBookingByConfirmationCode(bookingCode) {
-    const result = await axios.get(
-      `${this.BASE_URL}/bookings/get-by-confirmation-code/${bookingCode}`
-    );
-    return result.data;
+  static async getBookingByConfirmationCode(confirmationCode) {
+    try {
+      const response = await axios.get(
+        `${this.BASE_URL}/bookings/get-by-confirmation-code/${confirmationCode}`,
+        {
+          headers: this.getHeader(),
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching booking:", error);
+      throw error;
+    }
   }
 
   /* This is the  to cancel user booking */
@@ -306,7 +312,6 @@ export default class ApiService {
   static async updateProfile(updateData) {
     try {
       const token = localStorage.getItem("accessToken");
-      console.log("Token being used:", token);
 
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -321,6 +326,38 @@ export default class ApiService {
       return updatedProfileResponse.user;
     } catch (error) {
       console.error("Update profile error:", error.response || error);
+      throw error;
+    }
+  }
+
+  static async getAllPendingBookings() {
+    try {
+      const response = await axios.get(`${this.BASE_URL}/bookings/pending`, {
+        headers: this.getHeader(),
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updateBookingStatus(bookingId, status) {
+    try {
+      const response = await axios.put(
+        `${this.BASE_URL}/bookings/update-status`,
+        {
+          bookingId: bookingId,
+          status: status,
+        },
+        {
+          headers: {
+            ...this.getHeader(),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
       throw error;
     }
   }

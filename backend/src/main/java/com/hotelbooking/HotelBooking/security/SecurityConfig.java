@@ -52,7 +52,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/bookings/book-room/**").authenticated()
                 .requestMatchers("/bookings/pending").hasAuthority(ROLE_ADMIN)
                 .requestMatchers("/bookings/all").hasAuthority(ROLE_ADMIN)
-                .requestMatchers("/bookings/update-status").hasAuthority(ROLE_ADMIN)
+                .requestMatchers(HttpMethod.PUT, "/bookings/update-status").hasAuthority(ROLE_ADMIN)
                 .requestMatchers("/bookings/get-by-confirmation-code/**").authenticated()
                 .requestMatchers("/bookings/cancel/**").authenticated()
                 

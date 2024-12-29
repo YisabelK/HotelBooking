@@ -23,7 +23,6 @@ const ProfilePage = () => {
     const fetchUserProfile = async () => {
       try {
         const response = await ApiService.getUserProfile();
-        console.log("User Profile Response:", response);
         setUser(response.user);
         setPastBookings(response.pastBookings || []);
         setUpcomingBookings(response.upcomingBookings || []);
@@ -58,6 +57,14 @@ const ProfilePage = () => {
               <Field
                 label="Check-out Date"
                 value={new Date(booking.checkOutDate).toLocaleDateString()}
+              />
+              <Field
+                label="Booking Status"
+                value={
+                  <span className={`status-${booking.status.toLowerCase()}`}>
+                    {booking.status}
+                  </span>
+                }
               />
               {booking.room && (
                 <>

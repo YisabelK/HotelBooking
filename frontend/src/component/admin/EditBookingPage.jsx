@@ -25,12 +25,8 @@ const EditBookingPage = () => {
         const response = await ApiService.getBookingByConfirmationCode(
           bookingCode
         );
-        console.log("Booking Response:", response);
 
         if (response && response.booking) {
-          console.log("Booking Details:", response.booking);
-          console.log("User Details:", response.booking.user);
-          console.log("Room Details:", response.booking.room);
           setBookingDetails(response.booking);
         } else {
           setError("Booking details not found");
@@ -55,6 +51,62 @@ const EditBookingPage = () => {
     navigate("/admin/manage-bookings");
   };
 
+  const handleApproveBooking = async () => {
+    try {
+      if (!bookingDetails || !bookingDetails.id) {
+        setError("Booking details not found");
+        return;
+      }
+
+      const response = await ApiService.updateBookingStatus(
+        bookingDetails.id,
+        "CONFIRMED"
+      );
+
+      if (response && response.statusCode === 200) {
+        setSuccessMessage("Booking has been approved successfully");
+        setMessage("This booking has been approved");
+        setBookingDetails(response.booking);
+      } else {
+        setError(response?.message || "Failed to approve booking");
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to approve booking"
+      );
+    }
+  };
+
+  const handleCancelBooking = async () => {
+    try {
+      if (!bookingDetails || !bookingDetails.id) {
+        setError("Booking details not found");
+        return;
+      }
+
+      const response = await ApiService.updateBookingStatus(
+        bookingDetails.id,
+        "CANCELLED"
+      );
+
+      if (response && response.statusCode === 200) {
+        setSuccessMessage("Booking has been cancelled successfully");
+        setMessage("This booking has been cancelled");
+        setBookingDetails(response.booking);
+      } else {
+        setError(response?.message || "Failed to cancel booking");
+      }
+    } catch (error) {
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to cancel booking"
+      );
+    }
+  };
+
   return (
     <div className="find-booking-page">
       <h2>Booking Detail</h2>
@@ -67,28 +119,23 @@ const EditBookingPage = () => {
       {bookingDetails && (
         <>
           <BookingDetailsPage bookingDetails={bookingDetails} />
-          {message !== null ? (
-            <div className="status-message">
-              <p>{message}</p>
-            </div>
-          ) : (
-            <>
-              <div className="form-button-container">
+          <div className="status-message">{message && <p>{message}</p>}</div>
+          {!message && (
+            <div className="form-button-container">
+              {bookingDetails.status !== "CONFIRMED" && (
                 <Button
                   className="approve-button"
-                  onClick={() => setMessage("This booking has been approved")}
+                  onClick={handleApproveBooking}
                 >
                   Approve Booking
                 </Button>
-
-                <Button
-                  className="danger"
-                  onClick={() => setMessage("This booking has been cancelled")}
-                >
+              )}
+              {bookingDetails.status !== "CANCELLED" && (
+                <Button className="danger" onClick={handleCancelBooking}>
                   Cancel Booking
                 </Button>
-              </div>
-            </>
+              )}
+            </div>
           )}
         </>
       )}

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./adminPage.css";
 import Button from "../../utils/Button";
+import ManageRoomPage from "./ManageRoomPage";
+import ManageBookingsPage from "./ManageBookingsPage";
 
 const AdminPage = () => {
   const [adminName, setAdminName] = useState("");
@@ -23,7 +25,7 @@ const AdminPage = () => {
 
   return (
     <div className="admin-page">
-      <h1 className="welcome-message">Welcome, {adminName}</h1>
+      <h1 className="welcome-message">Hi, {adminName}</h1>
       <div className="form-button-container">
         <Button onClick={() => navigate("/admin/manage-rooms")}>
           Manage Rooms
@@ -31,7 +33,9 @@ const AdminPage = () => {
         <Button onClick={() => navigate("/admin/manage-bookings")}>
           Manage Bookings
         </Button>
+        <Button onClick={() => navigate("/admin/all-users")}>All Users</Button>
       </div>
+      <ManageBookingsPage />
     </div>
   );
 };

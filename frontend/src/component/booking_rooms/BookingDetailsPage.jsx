@@ -30,6 +30,12 @@ const BookingDetailPage = ({ bookingDetails }) => {
         <p>Num Of Adults: {bookingDetails.numOfAdults}</p>
         <p>Num Of Children: {bookingDetails.numOfChildren}</p>
         <p>Total Num Of Guest: {bookingDetails.totalNumOfGuest}</p>
+        <p>
+          Booking Status:
+          <span className={`status-${bookingDetails.status.toLowerCase()}`}>
+            {bookingDetails.status}
+          </span>
+        </p>
       </DetailsSection>
 
       <DetailsSection

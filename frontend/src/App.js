@@ -19,6 +19,7 @@ import EditProfilePage from "./component/profile/EditProfilePage";
 import { ProtectedRoute, AdminRoute } from "./service/guard";
 import AboutPage from "./component/about/AboutPage";
 import ContactPage from "./component/contact/ContactPage";
+import AllUsersPage from "./component/admin/AllUsersPage";
 
 function App() {
   return (
@@ -56,6 +57,10 @@ function App() {
             <Route
               path="/admin"
               element={<AdminRoute element={<AdminPage />} />}
+            />
+            <Route
+              path="/admin/manage-members"
+              element={<AdminRoute element={<AllUsersPage />} />}
             />
             <Route
               path="/admin/manage-rooms"

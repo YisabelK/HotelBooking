@@ -13,10 +13,14 @@ import com.hotelbooking.HotelBooking.repo.RoomRepository;
 import com.hotelbooking.HotelBooking.repo.UserRepository;
 import com.hotelbooking.HotelBooking.service.interfac.IBookingService;
 import com.hotelbooking.HotelBooking.utils.Utils;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookingService implements IBookingService {
@@ -24,13 +28,16 @@ public class BookingService implements IBookingService {
     private final BookingRepository bookingRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final EntityManager entityManager;
 
     public BookingService(BookingRepository bookingRepository,
                          RoomRepository roomRepository,
-                         UserRepository userRepository) {
+                         UserRepository userRepository,
+                         EntityManager entityManager) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
         this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
     /*
@@ -44,35 +51,28 @@ public class BookingService implements IBookingService {
     public Response saveBooking(Long roomId, Long userId, Booking bookingRequest) {
         Response response = new Response();
         try {
-            if(bookingRequest.getCheckOutDate().isBefore(bookingRequest.getCheckInDate())){
-                throw new IllegalArgumentException("Check in date must come after check out date");
-            }
             Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new OurException("Room Not Found"));
-                
-            int totalGuests = bookingRequest.getNumOfAdults() + bookingRequest.getNumOfChildren();
-            if (totalGuests > room.getRoomType().getMaxOccupancy()) {
-                throw new OurException("Total number of guests exceeds room capacity. Maximum allowed: " 
-                    + room.getRoomType().getMaxOccupancy());
-            }
-            
-            User user = userRepository.findById(userId).orElseThrow(()-> new OurException("User Not Found"));
-
-            List<Booking> existingBookings = room.getBookings();
-
-            if(!roomIsAvailable(bookingRequest, existingBookings)){
-                throw new OurException("Room not Available for selected date range");
-            }
+            User user = userRepository.findById(userId)
+                .orElseThrow(() -> new OurException("User Not Found"));
 
             bookingRequest.setRoom(room);
             bookingRequest.setUser(user);
             bookingRequest.setStatus(BookingStatus.PENDING);
-            String bookingConfirmationCode = Utils.generateRandomConfirmationCode(10);
-            bookingRequest.setBookingConfirmationCode(bookingConfirmationCode);
-            bookingRepository.save(bookingRequest);
+            bookingRequest.setTotalNumOfGuest(
+                bookingRequest.getNumOfAdults() + bookingRequest.getNumOfChildren()
+            );
+
+            String confirmationCode = UUID.randomUUID().toString();
+            bookingRequest.setBookingConfirmationCode(confirmationCode);
+
+            Booking savedBooking = bookingRepository.save(bookingRequest);
+            BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTO(savedBooking);
+
             response.setStatusCode(200);
             response.setMessage(GlobalStrings.SUCCESSFUL);
-            response.setBookingConfirmationCode(bookingConfirmationCode);
+            response.setBooking(bookingDTO);
+            response.setBookingConfirmationCode(confirmationCode);
 
         } catch (OurException e) {
             response.setStatusCode(400);
@@ -91,25 +91,37 @@ public class BookingService implements IBookingService {
      * @return Response
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Response updateBookingStatus(Long bookingId, BookingStatus status) {
         Response response = new Response();
         try {
-            Booking booking = bookingRepository.findById(bookingId)
+            Query query = entityManager.createQuery(
+                "UPDATE Booking b SET b.status = :status WHERE b.id = :id"
+            );
+            query.setParameter("status", status);
+            query.setParameter("id", bookingId);
+            
+            int updatedCount = query.executeUpdate();
+            
+            if (updatedCount == 0) {
+                throw new OurException("Booking does Not Exist");
+            }
+            
+            Booking updatedBooking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new OurException("Booking does Not Exist"));
             
-            booking.setStatus(status);
-            Booking updatedBooking = bookingRepository.save(booking);
             BookingDTO bookingDTO = Utils.mapBookingEntityToBookingDTO(updatedBooking);
-            
             response.setStatusCode(200);
             response.setMessage(GlobalStrings.SUCCESSFUL);
             response.setBooking(bookingDTO);
+            
         } catch (OurException e) {
             response.setStatusCode(400);
             response.setMessage(e.getMessage());
         } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage("Error Updating Booking Status: " + e.getMessage());
+            e.printStackTrace();
         }
         return response;
     }

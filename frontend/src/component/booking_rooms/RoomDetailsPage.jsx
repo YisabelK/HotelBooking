@@ -82,9 +82,6 @@ const RoomDetailsPage = () => {
       const startDate = new Date(checkInDate);
       const endDate = new Date(checkOutDate);
 
-      console.log("Original Check-in Date:", startDate);
-      console.log("Original Check-out Date:", endDate);
-
       const formattedCheckInDate = new Date(
         startDate.getTime() - startDate.getTimezoneOffset() * 60000
       )
@@ -96,17 +93,12 @@ const RoomDetailsPage = () => {
         .toISOString()
         .split("T")[0];
 
-      console.log("Formated Check-in Date:", formattedCheckInDate);
-      console.log("Formated Check-out Date:", formattedCheckOutDate);
-
       const booking = {
         checkInDate: formattedCheckInDate,
         checkOutDate: formattedCheckOutDate,
         numOfAdults: numAdults,
         numOfChildren: numChildren,
       };
-      console.log(booking);
-      console.log(checkOutDate);
 
       const response = await ApiService.bookRoom(roomId, userId, booking);
       if (response.statusCode === 200) {
