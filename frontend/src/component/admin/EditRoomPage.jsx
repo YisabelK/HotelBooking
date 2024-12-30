@@ -5,10 +5,12 @@ import "./editRoomPage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
 import FormGroup from "../../utils/FormGroup";
+import Loading from "../../utils/Loading";
 
 const EditRoomPage = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [roomDetails, setRoomDetails] = useState({
     roomPhotoUrl: "",
     roomType: "",
@@ -24,6 +26,7 @@ const EditRoomPage = () => {
   useEffect(() => {
     const fetchRoomDetails = async () => {
       try {
+        setIsLoading(true);
         const response = await ApiService.getRoomById(roomId);
         setRoomDetails({
           roomPhotoUrl: response.room.roomPhotoUrl,
@@ -34,8 +37,10 @@ const EditRoomPage = () => {
 
         const types = await ApiService.getRoomTypes();
         setRoomTypes(types);
+        setIsLoading(false);
       } catch (error) {
         setError(error.response?.data?.message || error.message);
+        setIsLoading(false);
       }
     };
     fetchRoomDetails();
@@ -71,6 +76,7 @@ const EditRoomPage = () => {
         formData.append("photo", file);
       }
 
+      setIsLoading(true);
       const result = await ApiService.updateRoom(roomId, formData);
       if (result.statusCode === 200) {
         setSuccess("Room updated successfully.");
@@ -80,9 +86,11 @@ const EditRoomPage = () => {
           navigate("/admin/manage-rooms");
         }, 3000);
       }
+      setIsLoading(false);
       setTimeout(() => setSuccess(""), 5000);
     } catch (error) {
       setError(error.response?.data?.message || error.message);
+      setIsLoading(false);
       setTimeout(() => setError(""), 5000);
     }
   };
@@ -90,6 +98,7 @@ const EditRoomPage = () => {
   const handleDelete = async () => {
     if (window.confirm("Do you want to delete this room?")) {
       try {
+        setIsLoading(true);
         const result = await ApiService.deleteRoom(roomId);
         if (result.statusCode === 200) {
           setSuccess("Room Deleted successfully.");
@@ -99,15 +108,18 @@ const EditRoomPage = () => {
             navigate("/admin/manage-rooms");
           }, 3000);
         }
+        setIsLoading(false);
       } catch (error) {
         setError(error.response?.data?.message || error.message);
         setTimeout(() => setError(""), 5000);
+        setIsLoading(false);
       }
     }
   };
 
   return (
     <div className="edit-room-container">
+      {isLoading && <Loading message="Loading room..." />}
       <h2>Edit Room</h2>
       {error && (
         <Modal type="error" message={error} onClose={() => setError("")} />

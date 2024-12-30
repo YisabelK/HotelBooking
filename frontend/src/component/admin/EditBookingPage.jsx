@@ -5,7 +5,7 @@ import "./editBookingPage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
 import BookingDetailsPage from "../booking_rooms/BookingDetailsPage";
-
+import Loading from "../../utils/Loading";
 const EditBookingPage = () => {
   const navigate = useNavigate();
   const { bookingCode } = useParams();
@@ -13,7 +13,7 @@ const EditBookingPage = () => {
   const [error, setError] = useState(null);
   const [success, setSuccessMessage] = useState(null);
   const [message, setMessage] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     if (!ApiService.isAdmin()) {
       navigate("/login");
@@ -21,6 +21,7 @@ const EditBookingPage = () => {
     }
 
     const fetchBookingDetails = async () => {
+      setIsLoading(true);
       try {
         const response = await ApiService.getBookingByConfirmationCode(
           bookingCode
@@ -35,6 +36,7 @@ const EditBookingPage = () => {
         console.error("Error fetching booking:", error);
         setError(error.message || "Error fetching booking details");
       }
+      setIsLoading(false);
     };
 
     if (bookingCode) {
@@ -57,7 +59,7 @@ const EditBookingPage = () => {
         setError("Booking details not found");
         return;
       }
-
+      setIsLoading(true);
       const response = await ApiService.updateBookingStatus(
         bookingDetails.id,
         "CONFIRMED"
@@ -70,12 +72,14 @@ const EditBookingPage = () => {
       } else {
         setError(response?.message || "Failed to approve booking");
       }
+      setIsLoading(false);
     } catch (error) {
       setError(
         error.response?.data?.message ||
           error.message ||
           "Failed to approve booking"
       );
+      setIsLoading(false);
     }
   };
 
@@ -85,7 +89,7 @@ const EditBookingPage = () => {
         setError("Booking details not found");
         return;
       }
-
+      setIsLoading(true);
       const response = await ApiService.updateBookingStatus(
         bookingDetails.id,
         "CANCELLED"
@@ -98,12 +102,14 @@ const EditBookingPage = () => {
       } else {
         setError(response?.message || "Failed to cancel booking");
       }
+      setIsLoading(false);
     } catch (error) {
       setError(
         error.response?.data?.message ||
           error.message ||
           "Failed to cancel booking"
       );
+      setIsLoading(false);
     }
   };
 
@@ -116,6 +122,7 @@ const EditBookingPage = () => {
       {success && (
         <Modal type="success" message={success} onClose={handleCloseSuccess} />
       )}
+      {isLoading && <Loading message="Loading booking..." />}
       {bookingDetails && (
         <>
           <BookingDetailsPage bookingDetails={bookingDetails} />

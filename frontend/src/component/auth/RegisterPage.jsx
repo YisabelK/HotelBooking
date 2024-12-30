@@ -8,13 +8,13 @@ import Modal from "../../utils/Modal";
 import FormGroup from "../../utils/FormGroup";
 import { registerLocale } from "react-datepicker";
 import enGB from "date-fns/locale/en-GB";
-
+import Loading from "../../utils/Loading";
 registerLocale("en-GB", enGB);
 
 function RegisterPage() {
   const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,6 +43,7 @@ function RegisterPage() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch("https://restcountries.com/v3.1/all");
         const data = await response.json();
         const sortedCountries = data
@@ -52,15 +53,17 @@ function RegisterPage() {
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setCountries(sortedCountries);
-
+        setIsLoading(false);
         if (!formData.country) {
           setFormData((prev) => ({
             ...prev,
             country: "DE",
           }));
         }
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching countries:", error);
+        setIsLoading(false);
       }
     };
 
@@ -262,6 +265,11 @@ function RegisterPage() {
                   onChange={handleInputChange}
                 >
                   <option value="">Select Country</option>
+                  {isLoading && (
+                    <option>
+                      <Loading message="Loading countries..." />
+                    </option>
+                  )}
                   {countries.map((country) => (
                     <option key={country.code} value={country.code}>
                       {country.name}

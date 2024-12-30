@@ -5,7 +5,7 @@ import ApiService from "../../service/ApiService";
 import "./roomSearch.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
-
+import Loading from "../../utils/Loading";
 const RoomSearch = ({ handleSearchResult }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
@@ -13,20 +13,26 @@ const RoomSearch = ({ handleSearchResult }) => {
   const [roomTypes, setRoomTypes] = useState([]);
   const [error, setError] = useState("");
   const [showModal, setShowModal] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchRoomTypes = async () => {
       try {
+        setIsLoading(true);
         const types = await ApiService.getRoomTypes();
         setRoomTypes(types);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching room types:", error.message);
+        setIsLoading(false);
       }
     };
     fetchRoomTypes();
   }, []);
 
-  /**This methods is going to be used to show errors */
+  if (isLoading) {
+    return <Loading message="Loading room types..." />;
+  }
+
   const showError = (message, timeout = 5000) => {
     setError(message);
     setShowModal(true);
@@ -36,28 +42,24 @@ const RoomSearch = ({ handleSearchResult }) => {
     }, timeout);
   };
 
-  /**THis is going to be used to fetch avaailabe rooms from database base on seach data that'll be passed in */
   const handleInternalSearch = async () => {
     if (!startDate || !endDate || !roomType) {
       showError("Please select all fields");
       return false;
     }
     try {
-      // Convert startDate to the desired format
       const formattedStartDate = startDate
         ? startDate.toISOString().split("T")[0]
         : null;
       const formattedEndDate = endDate
         ? endDate.toISOString().split("T")[0]
         : null;
-      // Call the API to fetch available rooms
       const response = await ApiService.getAvailableRoomsByDateAndType(
         formattedStartDate,
         formattedEndDate,
         roomType
       );
 
-      // Check if the response is successful
       if (response.statusCode === 200) {
         if (response.roomList.length === 0) {
           showError(

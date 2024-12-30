@@ -2,6 +2,13 @@
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.all-users h3 {
+  color: var(--text-color-light);
+  font-weight: 400;
 }
 
 .users-list {
@@ -9,6 +16,7 @@
   flex-direction: column;
   gap: 15px;
   margin: 20px 0;
+  width: 100%;
 }
 
 .user-item {

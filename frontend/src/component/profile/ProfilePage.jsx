@@ -5,7 +5,7 @@ import ErrorModal from "../../utils/Modal";
 import "./profilePage.css";
 import Button from "../../utils/Button";
 import Field from "../../utils/Field";
-
+import Loading from "../../utils/Loading";
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [pastBookings, setPastBookings] = useState([]);
@@ -13,6 +13,7 @@ const ProfilePage = () => {
   const [error, setError] = useState(null);
   const [showUpcoming, setShowUpcoming] = useState(false);
   const [showPast, setShowPast] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleCloseError = () => {
@@ -22,18 +23,25 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
+        setIsLoading(true);
         const response = await ApiService.getUserProfile();
         setUser(response.user);
         setPastBookings(response.pastBookings || []);
         setUpcomingBookings(response.upcomingBookings || []);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching profile:", error);
         setError(error.response?.data?.message || error.message);
+        setIsLoading(false);
       }
     };
 
     fetchUserProfile();
   }, []);
+
+  if (isLoading) {
+    return <Loading message="Loading profile..." />;
+  }
 
   const handleEditProfile = () => {
     navigate("/edit-profile");

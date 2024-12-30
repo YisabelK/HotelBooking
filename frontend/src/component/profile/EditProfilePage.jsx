@@ -5,22 +5,26 @@ import "./editProfilePage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
 import FormGroup from "../../utils/FormGroup";
-
+import Loading from "../../utils/Loading";
 const EditProfilePage = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [countries, setCountries] = useState([]);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
+        setIsLoading(true);
         const response = await ApiService.getUserProfile();
         setUser(response.user);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching user profile:", error);
         setError(error.message);
+        setIsLoading(false);
       }
     };
 
@@ -30,6 +34,7 @@ const EditProfilePage = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
+        setIsLoading(true);
         const response = await fetch("https://restcountries.com/v3.1/all");
         const data = await response.json();
         const sortedCountries = data
@@ -39,20 +44,26 @@ const EditProfilePage = () => {
           }))
           .sort((a, b) => a.name.localeCompare(b.name));
         setCountries(sortedCountries);
-
+        setIsLoading(false);
         if (user && !user.country) {
           setUser((prev) => ({
             ...prev,
             country: "DE",
           }));
         }
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching countries:", error);
+        setIsLoading(false);
       }
     };
 
     fetchCountries();
   }, [user]);
+
+  if (isLoading) {
+    return <Loading message="Loading profile..." />;
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;

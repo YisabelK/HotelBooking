@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import ApiService from "../../service/ApiService";
 import Pagination from "../common/Pagination";
 import "./allUsersPage.css";
-
+import Loading from "../../utils/Loading";
+import Modal from "../../utils/Modal";
 const AllUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -19,10 +20,10 @@ const AllUsersPage = () => {
         const allUsers = response.userList || [];
         setUsers(allUsers);
         setFilteredUsers(allUsers);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
         setError(error.message);
-      } finally {
         setIsLoading(false);
       }
     };
@@ -31,11 +32,11 @@ const AllUsersPage = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading users...</div>;
+    return <Loading message="Loading users..." />;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <Modal type="error" message={error} onClose={() => setError("")} />;
   }
 
   const indexOfLastUser = currentPage * usersPerPage;
@@ -47,7 +48,7 @@ const AllUsersPage = () => {
   return (
     <div className="all-users">
       <h2>All Users</h2>
-      <p>We have {users.length} members</p>
+      <h3>We have {users.length} Users</h3>
       <div className="users-list">
         {currentUsers && currentUsers.length > 0 ? (
           currentUsers.map((user) => (

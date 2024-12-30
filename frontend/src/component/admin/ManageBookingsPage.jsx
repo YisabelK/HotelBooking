@@ -5,13 +5,14 @@ import Pagination from "../common/Pagination";
 import "./manageBookingsPage.css";
 import Button from "../../utils/Button";
 import Field from "../../utils/Field";
-
+import Loading from "../../utils/Loading";
 const ManageBookingsPage = () => {
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [bookingsPerPage] = useState(6);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const filterBookings = useCallback(() => {
@@ -33,12 +34,15 @@ const ManageBookingsPage = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
+        setIsLoading(true);
         const response = await ApiService.getAllBookings();
         const allBookings = response.bookingList;
         setBookings(allBookings);
         setFilteredBookings(allBookings);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching bookings:", error.message);
+        setIsLoading(false);
       }
     };
 
@@ -65,6 +69,7 @@ const ManageBookingsPage = () => {
   return (
     <div className="bookings-container">
       <h2>All Bookings</h2>
+      {isLoading && <Loading message="Loading bookings..." />}
       <div className="search-div">
         <label>Filter by Booking Number:</label>
         <input

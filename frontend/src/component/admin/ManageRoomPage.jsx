@@ -5,7 +5,7 @@ import Pagination from "../common/Pagination";
 import RoomResult from "../common/RoomResult";
 import Button from "../../utils/Button";
 import "./manageRoomPage.css";
-
+import Loading from "../../utils/Loading";
 const ManageRoomPage = () => {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
@@ -14,25 +14,31 @@ const ManageRoomPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [roomsPerPage] = useState(5);
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchRooms = async () => {
       try {
+        setIsLoading(true);
         const response = await ApiService.getAllRooms();
         const allRooms = response.roomList;
         setRooms(allRooms);
         setFilteredRooms(allRooms);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching rooms:", error.message);
+        setIsLoading(false);
       }
     };
 
     const fetchRoomTypes = async () => {
       try {
+        setIsLoading(true);
         const types = await ApiService.getRoomTypes();
         setRoomTypes(types);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching room types:", error.message);
+        setIsLoading(false);
       }
     };
 
@@ -65,6 +71,7 @@ const ManageRoomPage = () => {
 
   return (
     <div className="all-rooms">
+      {isLoading && <Loading message="Loading rooms..." />}
       <h2>All Rooms</h2>
       <div className="all-room-filter-div">
         <div className="filter-select-div">

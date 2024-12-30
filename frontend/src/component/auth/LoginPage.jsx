@@ -6,14 +6,14 @@ import LoginWelcome from "./LoginWelcome";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
 import FormGroup from "../../utils/FormGroup";
-
+import Loading from "../../utils/Loading";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [isLoading, setIsLoading] = useState(false);
   const from = location.state?.from?.pathname || "/home";
 
   const handleSubmit = async (e) => {
@@ -28,16 +28,23 @@ function LoginPage() {
     try {
       const response = await ApiService.loginUser({ email, password });
       if (response.statusCode === 200) {
+        setIsLoading(true);
         localStorage.setItem("accessToken", response.accessToken);
         localStorage.setItem("refreshToken", response.refreshToken);
         localStorage.setItem("role", response.role);
         navigate(from, { replace: true });
+        setIsLoading(false);
       }
     } catch (error) {
       setError(error.response?.data?.message || error.message);
       setTimeout(() => setError(""), 5000);
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <Loading message="Loading login..." />;
+  }
 
   return (
     <>

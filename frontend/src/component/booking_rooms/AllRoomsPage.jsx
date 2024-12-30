@@ -4,7 +4,7 @@ import Pagination from "../common/Pagination";
 import RoomResult from "../common/RoomResult";
 import RoomSearch from "../common/RoomSearch";
 import "./allRoomsPage.css";
-
+import Loading from "../../utils/Loading";
 const AllRoomsPage = () => {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);
@@ -12,6 +12,7 @@ const AllRoomsPage = () => {
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [roomsPerPage] = useState(5);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearchResult = (results) => {
     setRooms(results);
@@ -21,27 +22,37 @@ const AllRoomsPage = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
+        setIsLoading(true);
         const response = await ApiService.getAllRooms();
         const allRooms = response.roomList;
         setRooms(allRooms);
         setFilteredRooms(allRooms);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching rooms:", error.message);
+        setIsLoading(false);
       }
     };
 
     const fetchRoomTypes = async () => {
       try {
+        setIsLoading(true);
         const types = await ApiService.getRoomTypes();
         setRoomTypes(types);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching room types:", error.message);
+        setIsLoading(false);
       }
     };
 
     fetchRooms();
     fetchRoomTypes();
   }, []);
+
+  if (isLoading) {
+    return <Loading message="Loading rooms..." />;
+  }
 
   const handleRoomTypeChange = (e) => {
     setSelectedRoomType(e.target.value);

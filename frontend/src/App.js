@@ -59,7 +59,7 @@ function App() {
               element={<AdminRoute element={<AdminPage />} />}
             />
             <Route
-              path="/admin/manage-members"
+              path="/admin/all-users"
               element={<AdminRoute element={<AllUsersPage />} />}
             />
             <Route

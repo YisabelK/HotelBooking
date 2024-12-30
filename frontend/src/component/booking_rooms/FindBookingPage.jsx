@@ -4,33 +4,41 @@ import Modal from "../../utils/Modal";
 import BookingResult from "../common/BookingResult";
 import "./findBookingPage.css";
 import Button from "../../utils/Button";
+import Loading from "../../utils/Loading";
 
 const FindBookingPage = () => {
   const [confirmationCode, setConfirmationCode] = useState("");
   const [bookingSearchResults, setBookingSearchResults] = useState(null);
   const [error, setError] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleSearch = async () => {
     if (!confirmationCode.trim()) {
       setError("Please Enter a booking confirmation code");
       return;
     }
     try {
+      setIsLoading(true);
       const response = await ApiService.getBookingByConfirmationCode(
         confirmationCode
       );
       setBookingSearchResults([response.booking]);
       setError(null);
+      setIsLoading(false);
     } catch (error) {
       setError(
         `Booking with confirmation code '${confirmationCode}' was not found.`
       );
+      setIsLoading(false);
     }
   };
 
   const handleCloseError = () => {
     setError(null);
   };
+
+  if (isLoading) {
+    return <Loading message="Loading booking..." />;
+  }
 
   return (
     <div className="find-booking-page">

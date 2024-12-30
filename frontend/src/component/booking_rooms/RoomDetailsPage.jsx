@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "./roomDetailsPage.css";
 import Button from "../../utils/Button";
 import Modal from "../../utils/Modal";
+import Loading from "../../utils/Loading";
 
 const RoomDetailsPage = () => {
   const navigate = useNavigate();
@@ -120,7 +121,7 @@ const RoomDetailsPage = () => {
   };
 
   if (isLoading) {
-    return <p className="room-detail-loading">Loading room details...</p>;
+    return <Loading message="Loading room details..." />;
   }
 
   if (error) {
