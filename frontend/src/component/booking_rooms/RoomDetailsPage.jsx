@@ -3,9 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import DatePicker from "react-datepicker";
 import "./roomDetailsPage.css";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import Loading from "../ui/Loading";
 
 const RoomDetailsPage = () => {
   const navigate = useNavigate();

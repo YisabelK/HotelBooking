@@ -3,9 +3,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ApiService from "../../service/ApiService";
 import "./roomSearch.css";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import Loading from "../ui/Loading";
 const RoomSearch = ({ handleSearchResult }) => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);

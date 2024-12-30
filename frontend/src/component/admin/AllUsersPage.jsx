@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import ApiService from "../../service/ApiService";
 import Pagination from "../common/Pagination";
 import "./allUsersPage.css";
-import Loading from "../../utils/Loading";
-import Modal from "../../utils/Modal";
+import Loading from "../ui/Loading";
+import Modal from "../ui/Modal";
 const AllUsersPage = () => {
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);

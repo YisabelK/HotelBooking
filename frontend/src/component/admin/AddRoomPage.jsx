@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import FormGroup from "../../utils/FormGroup";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import FormGroup from "../ui/FormGroup";
 import "./addRoomPage.css";
 
 const AddRoomPage = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Field from "../../utils/Field";
+import Field from "../ui/Field";
 import "./bookingResult.css";
 import ApiService from "../../service/ApiService";
 

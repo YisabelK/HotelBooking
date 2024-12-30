@@ -4,7 +4,7 @@ import Pagination from "../common/Pagination";
 import RoomResult from "../common/RoomResult";
 import RoomSearch from "../common/RoomSearch";
 import "./allRoomsPage.css";
-import Loading from "../../utils/Loading";
+import Loading from "../ui/Loading";
 const AllRoomsPage = () => {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);

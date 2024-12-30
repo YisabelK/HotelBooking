@@ -3,10 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./auth.css";
 import LoginWelcome from "./LoginWelcome";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import FormGroup from "../../utils/FormGroup";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import FormGroup from "../ui/FormGroup";
+import Loading from "../ui/Loading";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

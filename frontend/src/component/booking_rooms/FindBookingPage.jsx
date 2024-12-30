@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import ApiService from "../../service/ApiService";
-import Modal from "../../utils/Modal";
+import Modal from "../ui/Modal";
 import BookingResult from "../common/BookingResult";
 import "./findBookingPage.css";
-import Button from "../../utils/Button";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Loading from "../ui/Loading";
 
 const FindBookingPage = () => {
   const [confirmationCode, setConfirmationCode] = useState("");

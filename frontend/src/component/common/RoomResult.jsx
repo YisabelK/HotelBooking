@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./roomResult.css";
-import Button from "../../utils/Button";
+import Button from "../ui/Button";
 
 const RoomResult = ({ roomSearchResults }) => {
   const navigate = useNavigate();

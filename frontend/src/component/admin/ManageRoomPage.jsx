@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import Pagination from "../common/Pagination";
 import RoomResult from "../common/RoomResult";
-import Button from "../../utils/Button";
+import Button from "../ui/Button";
 import "./manageRoomPage.css";
-import Loading from "../../utils/Loading";
+import Loading from "../ui/Loading";
 const ManageRoomPage = () => {
   const [rooms, setRooms] = useState([]);
   const [filteredRooms, setFilteredRooms] = useState([]);

@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import Pagination from "../common/Pagination";
 import "./manageBookingsPage.css";
-import Button from "../../utils/Button";
-import Field from "../../utils/Field";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Field from "../ui/Field";
+import Loading from "../ui/Loading";
 const ManageBookingsPage = () => {
   const [bookings, setBookings] = useState([]);
   const [filteredBookings, setFilteredBookings] = useState([]);

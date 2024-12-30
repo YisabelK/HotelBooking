@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./editBookingPage.css";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
 import BookingDetailsPage from "../booking_rooms/BookingDetailsPage";
-import Loading from "../../utils/Loading";
+import Loading from "../ui/Loading";
 const EditBookingPage = () => {
   const navigate = useNavigate();
   const { bookingCode } = useParams();

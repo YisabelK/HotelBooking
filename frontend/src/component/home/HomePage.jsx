@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import RoomResult from "../common/RoomResult";
 import RoomSearch from "../common/RoomSearch";
 import "./home.css";
-import Button from "../../utils/Button";
+import Button from "../ui/Button";
 
 const bannerData = [
   {

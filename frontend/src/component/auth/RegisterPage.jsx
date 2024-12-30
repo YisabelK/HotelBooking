@@ -3,12 +3,12 @@ import ApiService from "../../service/ApiService";
 import { useNavigate } from "react-router-dom";
 import "./auth.css";
 import LoginWelcome from "./LoginWelcome";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import FormGroup from "../../utils/FormGroup";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import FormGroup from "../ui/FormGroup";
 import { registerLocale } from "react-datepicker";
 import enGB from "date-fns/locale/en-GB";
-import Loading from "../../utils/Loading";
+import Loading from "../ui/Loading";
 registerLocale("en-GB", enGB);
 
 function RegisterPage() {

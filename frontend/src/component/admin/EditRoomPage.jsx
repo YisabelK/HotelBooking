@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./editRoomPage.css";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import FormGroup from "../../utils/FormGroup";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import FormGroup from "../ui/FormGroup";
+import Loading from "../ui/Loading";
 
 const EditRoomPage = () => {
   const { roomId } = useParams();

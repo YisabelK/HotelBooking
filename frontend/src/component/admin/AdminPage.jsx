@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./adminPage.css";
-import Button from "../../utils/Button";
+import Button from "../ui/Button";
 import ManageBookingsPage from "./ManageBookingsPage";
-import Loading from "../../utils/Loading";
+import Loading from "../ui/Loading";
 const AdminPage = () => {
   const [adminName, setAdminName] = useState("");
   const navigate = useNavigate();

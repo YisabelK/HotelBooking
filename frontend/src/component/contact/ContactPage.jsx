@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./contact.css";
-import Button from "../../utils/Button";
-import Modal from "../../utils/Modal";
-import FormGroup from "../../utils/FormGroup";
+import Button from "../ui/Button";
+import Modal from "../ui/Modal";
+import FormGroup from "../ui/FormGroup";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({

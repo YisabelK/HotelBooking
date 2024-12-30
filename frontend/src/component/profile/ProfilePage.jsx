@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
-import ErrorModal from "../../utils/Modal";
+import ErrorModal from "../ui/Modal";
 import "./profilePage.css";
-import Button from "../../utils/Button";
-import Field from "../../utils/Field";
-import Loading from "../../utils/Loading";
+import Button from "../ui/Button";
+import Field from "../ui/Field";
+import Loading from "../ui/Loading";
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [pastBookings, setPastBookings] = useState([]);
