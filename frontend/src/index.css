@@ -1,12 +1,28 @@
+#root {
+  min-height: 100vh;
+  min-width: 360px;
+}
 * {
   margin: 0;
+  padding: 0;
   font-family: "Montserrat", sans-serif;
-  color: #666;
   box-sizing: border-box;
 }
 
 body {
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  display: block;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.footer {
+  flex-shrink: 0;
 }
 
 :root {
@@ -19,6 +35,10 @@ body {
   --background-color-accent: #f1e3c4;
   --error-color: #dc3545;
   --success-color: #28a745;
+}
+
+.li {
+  list-style: none;
 }
 
 .link-button {
@@ -44,31 +64,11 @@ body {
   margin-bottom: 10px;
 }
 
-#root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.app {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.content {
-  flex: 1 0 auto;
-}
-
-.footer {
-  flex-shrink: 0;
-}
-
 @media (max-width: 768px) {
-  .container {
+  /* .container {
     padding: 10px;
     margin: 10px;
-  }
+  } */
 }
 
 .form-button-container {

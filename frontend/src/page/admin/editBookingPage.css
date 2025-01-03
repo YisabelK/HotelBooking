@@ -1,0 +1,49 @@
+.edit-booking-page-container {
+  max-width: 900px;
+  margin: 20px auto;
+}
+
+.acheive-booking {
+  margin: 10px auto;
+  background-color: var(--secondary-color);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.acheive-booking:hover {
+  background-color: var(--secondary-color);
+}
+
+.status-message {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  color: var(--secondary-color);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.booking-details-page-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.status-pending {
+  color: #f0ad4e;
+  font-weight: bold;
+}
+
+.status-confirmed {
+  color: #5cb85c;
+  font-weight: bold;
+}
+
+.status-cancelled {
+  color: #d9534f;
+  font-weight: bold;
+}

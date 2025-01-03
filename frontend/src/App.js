@@ -1,25 +1,25 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Navbar from "./component/common/Navbar";
-import FooterComponent from "./component/common/Footer";
-import LoginPage from "./component/auth/LoginPage";
-import RegisterPage from "./component/auth/RegisterPage";
-import HomePage from "./component/home/HomePage";
-import AllRoomsPage from "./component/booking_rooms/AllRoomsPage";
-import RoomDetailsBookingPage from "./component/booking_rooms/RoomDetailsPage";
-import FindBookingPage from "./component/booking_rooms/FindBookingPage";
-import AdminPage from "./component/admin/AdminPage";
-import ManageRoomPage from "./component/admin/ManageRoomPage";
-import EditRoomPage from "./component/admin/EditRoomPage";
-import AddRoomPage from "./component/admin/AddRoomPage";
-import ManageBookingsPage from "./component/admin/ManageBookingsPage";
-import EditBookingPage from "./component/admin/EditBookingPage";
-import ProfilePage from "./component/profile/ProfilePage";
-import EditProfilePage from "./component/profile/EditProfilePage";
+import Navbar from "./component/Navbar";
+import FooterComponent from "./component/Footer";
+import LoginPage from "./page/LoginPage";
+import RegisterPage from "./page/RegisterPage";
+import HomePage from "./page/HomePage";
+import RoomReservationPage from "./page/RoomReservationPage";
+import RoomDetailsBookingPage from "./page/RoomDetailsPage";
+import FindBookingPage from "./page/FindBookingPage";
+import AdminPage from "./page/admin/AdminPage";
+import ManageRoomPage from "./page/admin/ManageRoomPage";
+import EditRoomPage from "./page/admin/EditRoomPage";
+import AddRoomPage from "./page/admin/AddRoomPage";
+import ManageBookingsPage from "./page/admin/ManageBookingsPage";
+import EditBookingPage from "./page/admin/EditBookingPage";
+import UserProfilePage from "./page/UserProfilePage";
+import EditUserProfilePage from "./page/EditUserProfilePage";
 import { ProtectedRoute, AdminRoute } from "./service/guard";
-import AboutPage from "./component/about/AboutPage";
-import ContactPage from "./component/contact/ContactPage";
-import AllUsersPage from "./component/admin/AllUsersPage";
+import AboutPage from "./page/AboutPage";
+import ContactPage from "./page/ContactPage";
+import AllUsersPage from "./page/admin/AllUsersPage";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
             <Route exact path="/home" element={<HomePage />} />
             <Route exact path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/rooms" element={<AllRoomsPage />} />
+            <Route path="/rooms" element={<RoomReservationPage />} />
             <Route path="/find-booking" element={<FindBookingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
@@ -46,11 +46,11 @@ function App() {
             />
             <Route
               path="/profile"
-              element={<ProtectedRoute element={<ProfilePage />} />}
+              element={<ProtectedRoute element={<UserProfilePage />} />}
             />
             <Route
               path="/edit-profile"
-              element={<ProtectedRoute element={<EditProfilePage />} />}
+              element={<ProtectedRoute element={<EditUserProfilePage />} />}
             />
 
             {/* Admin Routes */}
