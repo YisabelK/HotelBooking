@@ -31,13 +31,6 @@
   font-size: 14px;
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 2em;
-  color: var(--primary-color);
-}
-
 .search-div {
   display: flex;
   justify-content: center;

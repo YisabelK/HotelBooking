@@ -4,6 +4,8 @@ import Button from "../component/Button";
 import Modal from "../component/Modal";
 import FormGroup from "../component/FormGroup";
 import emailjs from "@emailjs/browser";
+import TitelBanner from "../component/TitelBanner";
+import Loading from "../component/Loading";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +15,7 @@ const ContactPage = () => {
     message: "",
   });
   const [submitStatus, setSubmitStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -24,7 +26,7 @@ const ContactPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
     emailjs
       .send(
         process.env.REACT_APP_EMAILJS_SERVICE_ID,
@@ -40,7 +42,7 @@ const ContactPage = () => {
       )
       .then(
         () => {
-          setLoading(false);
+          setIsLoading(false);
           setSubmitStatus("Thank you for your message 😃");
 
           setTimeout(() => {
@@ -54,16 +56,20 @@ const ContactPage = () => {
           }, 3000);
         },
         (error) => {
-          setLoading(false);
+          setIsLoading(false);
           setSubmitStatus("Failed to send message 😢");
           console.error("Email error:", error);
         }
       );
   };
 
+  if(isLoading) {
+    return <Loading message="Loading..." />
+  }
+
   return (
     <div className="contact-container">
-      <h1>Contact Me</h1>
+      <TitelBanner title="Contact Me" image={"contact"} imageFormat={"jpg"} />
       <div className="contact-form">
         <h2>Did you like my portfolio?</h2>
         <p>

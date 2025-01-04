@@ -1,31 +1,121 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Field from "./Field";
-import "./bookingResult.css";
+import React, { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import ApiService from "../service/ApiService";
+import Pagination from "../component/Pagination";
+import "./bookingResult.css";
+import Button from "../component/Button";
+import Field from "../component/Field";
+import Loading from "../component/Loading";
 
-const BookingResult = ({ bookingSearchResults }) => {
-  const isAdmin = ApiService.isAdmin();
+const BookingResult = ({ title }) => {
+  const [bookings, setBookings] = useState([]);
+  const [filteredBookings, setFilteredBookings] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [bookingsPerPage] = useState(6);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const filterBookings = useCallback(() => {
+    if (searchTerm === "") {
+      setFilteredBookings(bookings);
+    } else {
+      const filtered = bookings.filter(
+        (booking) =>
+          booking.bookingConfirmationCode &&
+          booking.bookingConfirmationCode
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+      );
+      setFilteredBookings(filtered);
+    }
+    setCurrentPage(1);
+  }, [bookings, searchTerm]);
+
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        setIsLoading(true);
+        const response = await ApiService.getAllBookings();
+        const allBookings = response.bookingList;
+        setBookings(allBookings);
+        setFilteredBookings(allBookings);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching bookings:", error.message);
+        setIsLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
+  useEffect(() => {
+    filterBookings();
+  }, [filterBookings]);
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const indexOfLastBooking = currentPage * bookingsPerPage;
+  const indexOfFirstBooking = indexOfLastBooking - bookingsPerPage;
+  const currentBookings = filteredBookings.slice(
+    indexOfFirstBooking,
+    indexOfLastBooking
+  );
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
-    <div className="booking-code-results-container">
-      {bookingSearchResults.map((booking) => (
-        <div key={booking.id} className="booking-code-result-item">
-          <Field label="Booking Code" value={booking.bookingConfirmationCode} />
-          <Field label="Check In" value={booking.checkInDate} />
-          <Field label="Check Out" value={booking.checkOutDate} />
-          <Field label="Status" value={booking.status} />
-          {isAdmin && (
-            <div className="form-button-container">
-              <Link
-                to={`/admin/edit-booking/${booking.bookingConfirmationCode}`}
-                className="manage-booking-link"
-              >
-                Manage This Booking
-              </Link>
+    <div className="bookings-container">
+      <h2>{title}</h2>
+      {isLoading && <Loading message="Loading bookings..." />}
+      <div className="search-div">
+        <label>Filter by Booking Number:</label>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Enter booking number"
+        />
+      </div>
+
+      <div className="booking-results">
+        {currentBookings.map((booking) => (
+          <div key={booking.id} className="booking-result-item">
+            <div className="booking-item-info">
+              <Field
+                label="Booking Code"
+                value={booking.bookingConfirmationCode}
+              />
+              <Field label="Total Guests" value={booking.totalNumOfGuest} />
             </div>
-          )}
-        </div>
-      ))}
+            <div className="booking-item-date">
+              <Field label="Check In Date" value={booking.checkInDate} />
+              <Field label="Check out Date" value={booking.checkOutDate} />
+            </div>
+            <div className="form-button-container">
+              <Button
+                onClick={() =>
+                  navigate(
+                    `/admin/edit-booking/${booking.bookingConfirmationCode}`
+                  )
+                }
+              >
+                Manage Booking
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <Pagination
+        roomsPerPage={bookingsPerPage}
+        totalRooms={filteredBookings.length}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
     </div>
   );
 };

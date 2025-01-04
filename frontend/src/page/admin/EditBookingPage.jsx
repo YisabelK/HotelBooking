@@ -136,6 +136,9 @@ const EditBookingPage = () => {
       {success && (
         <Modal type="success" message={success} onClose={handleCloseSuccess} />
       )}
+      {/* {message && (
+        <Modal type="text" message={message} onClose={handleCloseMessage} />
+      )} */}
       {isLoading && <Loading message="Loading booking..." />}
       {bookingDetails && (
         <>
@@ -197,7 +200,6 @@ const EditBookingPage = () => {
               )}
             </DetailsSection>
           </div>
-          <div className="status-message">{message && <p>{message}</p>}</div>
           {!message && (
             <div className="form-button-container">
               {bookingDetails.status !== "CONFIRMED" && (

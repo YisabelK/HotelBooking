@@ -5,7 +5,7 @@ import FooterComponent from "./component/Footer";
 import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
 import HomePage from "./page/HomePage";
-import RoomReservationPage from "./page/RoomReservationPage";
+import OurRoomsPage from "./page/OurRoomsPage";
 import RoomDetailsBookingPage from "./page/RoomDetailsPage";
 import FindBookingPage from "./page/FindBookingPage";
 import AdminPage from "./page/admin/AdminPage";
@@ -20,7 +20,7 @@ import { ProtectedRoute, AdminRoute } from "./service/guard";
 import AboutPage from "./page/AboutPage";
 import ContactPage from "./page/ContactPage";
 import AllUsersPage from "./page/admin/AllUsersPage";
-
+import FloatingMenu from "./component/FloatingMenu";
 function App() {
   return (
     <BrowserRouter>
@@ -32,7 +32,7 @@ function App() {
             <Route exact path="/home" element={<HomePage />} />
             <Route exact path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/rooms" element={<RoomReservationPage />} />
+            <Route path="/rooms" element={<OurRoomsPage />} />
             <Route path="/find-booking" element={<FindBookingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
@@ -42,7 +42,7 @@ function App() {
             {/* Protected Routes */}
             <Route
               path="/room-details-book/:roomId"
-              element={<ProtectedRoute element={<RoomDetailsBookingPage />} />}
+              element={<RoomDetailsBookingPage />}
             />
             <Route
               path="/profile"
@@ -85,6 +85,7 @@ function App() {
           </Routes>
         </div>
         <FooterComponent />
+        <FloatingMenu />
       </div>
     </BrowserRouter>
   );

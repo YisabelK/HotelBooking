@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import ApiService from "../service/ApiService";
 import "./navbar.css";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 function Navbar() {
   const isAuthenticated = ApiService.isAuthenticated();
@@ -55,7 +54,7 @@ function Navbar() {
                 to="/rooms"
                 className={({ isActive }) => (isActive ? "active" : "")}
               >
-                Reservation <CalendarMonthIcon fontSize="small" />
+                Our Rooms
               </NavLink>
             </li>
             <li>
@@ -166,7 +165,7 @@ function Navbar() {
                 className={({ isActive }) => (isActive ? "active" : "")}
                 onClick={closeSidebar}
               >
-                Reservation <CalendarMonthIcon fontSize="small" />
+                Our Rooms
               </NavLink>
             </li>
             <li>

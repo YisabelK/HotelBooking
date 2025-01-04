@@ -6,10 +6,6 @@
   overflow: hidden;
 }
 
-.room-slider-container h2 {
-  color: var(--text-color);
-}
-
 .room-slider-wrapper {
   overflow: hidden;
   position: relative;
@@ -30,6 +26,7 @@
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background: white;
+  position: relative;
 }
 
 .room-slide img {
@@ -40,11 +37,6 @@
 
 .room-slide-content {
   padding: 15px;
-}
-
-.room-slide-content h3 {
-  margin: 0;
-  color: var(--text-color);
 }
 
 .room-price {
@@ -82,4 +74,19 @@
 
 .slider-button.next {
   right: 10px;
+}
+
+.booking-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 60px !important;
+  height: 60px !important;
+  z-index: 2;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.booking-icon:hover {
+  transform: scale(1.1);
 }

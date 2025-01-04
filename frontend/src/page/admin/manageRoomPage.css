@@ -1,7 +1,10 @@
-/* .all-rooms {
+.manage-rooms-container {
   margin: 20px auto;
   padding: 20px;
-} */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .filter-select-div {
   display: flex;

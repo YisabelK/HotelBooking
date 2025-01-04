@@ -20,12 +20,10 @@
 
 .info-window h3 {
   margin: 0 0 8px 0;
-  color: var(--primary-color);
 }
 
 .info-window p {
   margin: 0;
-  color: var(--text-color);
 }
 
 @media (max-width: 768px) {

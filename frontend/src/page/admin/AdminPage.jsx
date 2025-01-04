@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import "./adminPage.css";
 import Button from "../../component/Button";
-import ManageBookingsPage from "./ManageBookingsPage";
+// import ManageBookingsPage from "./ManageBookingsPage";
 import Loading from "../../component/Loading";
 import TitelBanner from "../../component/TitelBanner";
+import BookingResult from "../../component/BookingResult";
 const AdminPage = () => {
   const [adminName, setAdminName] = useState("");
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const AdminPage = () => {
         </Button>
         <Button onClick={() => navigate("/admin/all-users")}>All Users</Button>
       </div>
-      <ManageBookingsPage />
+      <BookingResult />
     </div>
   );
 };

@@ -70,7 +70,7 @@ const ManageRoomPage = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="all-rooms">
+    <div className="manage-rooms-container">
       {isLoading && <Loading message="Loading rooms..." />}
       <h2>All Rooms</h2>
       <div className="all-room-filter-div">

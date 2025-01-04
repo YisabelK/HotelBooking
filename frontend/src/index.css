@@ -24,9 +24,9 @@ body {
 .footer {
   flex-shrink: 0;
 }
-
+/* #a09080 */
 :root {
-  --primary-color: #a09080;
+  --primary-color: #1e3d59;
   --secondary-color: #4c453d;
   --accent-color: #ff7f50;
   --text-color: #000000;
@@ -76,6 +76,7 @@ body {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  margin-bottom: 20px;
   gap: 10px;
 }
 
@@ -90,4 +91,40 @@ body {
     width: 200px;
     max-width: 100%;
   }
+}
+
+/* h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: var(--text-color);
+} */
+/* h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: var(--primary-color);
+} */
+
+/* .about-container h2 {
+  color: var(--secondary-color);
+  margin-bottom: 30px;
+} */
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2em;
+  color: var(--text-color);
+}
+
+h3 {
+  color: var(--text-color-light);
+}
+
+.phegon-color {
+  color: #ff7f50;
+}
+.phegon-color-red {
+  color: #ff0000;
 }

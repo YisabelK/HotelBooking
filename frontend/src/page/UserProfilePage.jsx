@@ -6,6 +6,8 @@ import "./userProfilePage.css";
 import Button from "../component/Button";
 import Field from "../component/Field";
 import Loading from "../component/Loading";
+import DetailsSection from "../component/DetailsSection";
+
 const UserProfilePage = () => {
   const [user, setUser] = useState(null);
   const [pastBookings, setPastBookings] = useState([]);
@@ -14,6 +16,8 @@ const UserProfilePage = () => {
   const [showUpcoming, setShowUpcoming] = useState(false);
   const [showPast, setShowPast] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeSections, setActiveSections] = useState([]);
+
   const navigate = useNavigate();
 
   const handleCloseError = () => {
@@ -47,56 +51,65 @@ const UserProfilePage = () => {
     navigate("/edit-profile");
   };
 
+  const toggleSection = (bookingId) => {
+    setActiveSections((prev) => {
+      if (prev.includes(bookingId)) {
+        return prev.filter((id) => id !== bookingId);
+      } else {
+        return [...prev, bookingId];
+      }
+    });
+  };
+
   const renderBookingList = (bookings, title) => (
-    <div className="booking-section">
-      <h3>{title}</h3>
-      <div className="booking-list">
-        {bookings.length > 0 ? (
-          bookings.map((booking) => (
-            <div key={booking.id} className="booking-item">
-              <Field
-                label="Booking Code"
-                value={booking.bookingConfirmationCode}
-              />
-              <Field
-                label="Check-in Date"
-                value={new Date(booking.checkInDate).toLocaleDateString()}
-              />
-              <Field
-                label="Check-out Date"
-                value={new Date(booking.checkOutDate).toLocaleDateString()}
-              />
-              <Field
-                label="Booking Status"
-                value={
-                  <span className={`status-${booking.status.toLowerCase()}`}>
-                    {booking.status}
-                  </span>
-                }
-              />
-              {booking.room && (
-                <>
-                  <Field label="Room Type" value={booking.room.roomType} />
-                  <Field
-                    label="Room Price"
-                    value={`$${booking.room.roomPrice}`}
-                  />
-                  {booking.room.roomPhotoUrl && (
-                    <img
-                      src={booking.room.roomPhotoUrl}
-                      alt="Room"
-                      className="room-photo"
-                    />
-                  )}
-                </>
-              )}
-            </div>
-          ))
-        ) : (
-          <p>No {title.toLowerCase()} found</p>
-        )}
-      </div>
-    </div>
+    <>
+      <h2>{title}</h2>
+      {bookings.length > 0 ? (
+        bookings.map((booking) => (
+          <DetailsSection
+            key={booking.id}
+            title={booking.bookingConfirmationCode}
+            isActive={activeSections.includes(booking.id)}
+            onToggle={() => toggleSection(booking.id)}
+          >
+            <Field
+              label="Booking Confirmation Code"
+              value={booking.bookingConfirmationCode}
+            />
+            <Field
+              label="Check-in Date"
+              value={new Date(booking.checkInDate).toLocaleDateString()}
+            />
+            <Field
+              label="Check-out Date"
+              value={new Date(booking.checkOutDate).toLocaleDateString()}
+            />
+            <Field
+              label="Booking Status"
+              value={
+                <span className={`status-${booking.status.toLowerCase()}`}>
+                  {booking.status}
+                </span>
+              }
+            />
+            {booking.room && (
+              <>
+                <Field label="Room Type" value={booking.room.roomType} />
+                <Field
+                  label="Room Price"
+                  value={`$${booking.room.roomPrice}`}
+                />
+                {booking.room.roomPhotoUrl && (
+                  <img src={booking.room.roomPhotoUrl} alt="Room" />
+                )}
+              </>
+            )}
+          </DetailsSection>
+        ))
+      ) : (
+        <p>No bookings found</p>
+      )}
+    </>
   );
 
   const toggleUpcoming = () => {

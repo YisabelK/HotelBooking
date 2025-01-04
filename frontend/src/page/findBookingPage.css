@@ -29,7 +29,6 @@
   border-color: var(--primary-color);
 }
 
-
 .booking-intro-content {
   max-width: 800px;
   margin: 3rem auto;
@@ -37,7 +36,6 @@
 }
 
 .booking-intro-content h3 {
-  color: var(--primary-color);
   font-size: 1.5em;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -45,7 +43,6 @@
 }
 
 .booking-intro-content p {
-  color: var(--text-color);
   line-height: 1.8;
   font-size: 1.1em;
   margin-bottom: 1rem;
@@ -64,13 +61,5 @@
     max-width: 400px;
     box-sizing: border-box;
     margin: 0;
-  }
-
-  .banner-section {
-    height: 300px;
-  }
-
-  .banner-section h2 {
-    font-size: 2em;
   }
 }

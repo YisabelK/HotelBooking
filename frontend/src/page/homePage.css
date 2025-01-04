@@ -26,20 +26,12 @@
   margin-top: 30px;
 }
 
-.home-search-container h2 {
-  color: var(--text-color);
-}
-
 /* Services */
 .home-services {
   font-weight: 800;
   color: var(--text-color);
   text-align: center;
   margin: 5px auto 30px auto;
-}
-
-.phegon-color {
-  color: #ff7f50;
 }
 
 .service-section {
@@ -164,13 +156,6 @@
   align-items: center;
 }
 
-/* .journey-content {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  margin-bottom: 40px;
-} */
-
 .journey-image {
   flex: 1;
   max-width: 50%;
@@ -191,14 +176,8 @@
   width: 800px;
 }
 
-.journey-text h2 {
-  margin-bottom: 20px;
-  color: var(--text-color);
-}
-
 .journey-text p {
   line-height: 1.6;
-  color: var(--text-color);
   text-align: justify;
 }
 

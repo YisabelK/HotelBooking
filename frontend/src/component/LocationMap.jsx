@@ -35,7 +35,7 @@ export default function LocationMap() {
         >
           <AdvancedMarker position={position} onClick={() => setIsOpen(true)}>
             <Pin
-              background={"#A09080"}
+              background={"#c41818"}
               borderColor={"#705F4D"}
               glyphColor={"#FFFFFF"}
             />

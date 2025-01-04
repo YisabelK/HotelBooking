@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ApiService from "../service/ApiService";
 import { useNavigate } from "react-router-dom";
-import "./LoginRegisterPage.css";
+import "./loginRegisterPage.css";
 import WelcomeMessage from "../component/WelcomeMessage";
 import Button from "../component/Button";
 import Modal from "../component/Modal";
