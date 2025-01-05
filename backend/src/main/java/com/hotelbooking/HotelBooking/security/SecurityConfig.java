@@ -47,7 +47,8 @@ public class SecurityConfig {
                 .requestMatchers("/rooms/all").permitAll()
                 .requestMatchers("/rooms/room-by-id/**").permitAll()
                 .requestMatchers("/rooms/types").permitAll()
-                
+                .requestMatchers("/rooms/available-rooms-by-date-and-type/**").permitAll()
+                .requestMatchers("/rooms/all-available-rooms").permitAll()
                 // Booking
                 .requestMatchers(HttpMethod.POST, "/bookings/book-room/**").authenticated()
                 .requestMatchers("/bookings/pending").hasAuthority(ROLE_ADMIN)
