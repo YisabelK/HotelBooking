@@ -8,48 +8,39 @@ A full-stack hotel booking application that enables room reservations and manage
 
 #### Homepage<br/>
 
-![Homepage](https://github.com/user-attachments/assets/ecaa3387-50dc-4b3d-8ea4-8a8f841a5037)
+![homepage](https://github.com/user-attachments/assets/24945ee0-a53f-4827-898b-f8fe48c4584a)
 
 #### About The Han Page<br/>
 
-![AboutTheHan](https://github.com/user-attachments/assets/8d7cf098-c45d-4a7f-b89a-1493c0a2ed4c)
+![about](https://github.com/user-attachments/assets/dc9ea7a5-96d4-4a8d-b75e-ee996c2fe9f6)
 
 ### Users
 
-#### Search and book rooms<br/>
-
-![SearchBooking](https://github.com/user-attachments/assets/10ba33d8-ebf5-422c-98c7-c43b9ee618e3)
-![Reservation](https://github.com/user-attachments/assets/bd194f7e-d180-4591-8c7f-8b421e937a7d)
-
 #### Register/Login<br/>
 
-![Register](https://github.com/user-attachments/assets/3227a624-4a04-4269-aab8-4d289636bde9)
-![Login](https://github.com/user-attachments/assets/09c11010-7033-4610-977f-9621cd16757b)
+![register](https://github.com/user-attachments/assets/4783f52f-9913-477c-b9b7-332953303cdf)
+![Login](https://github.com/user-attachments/assets/602d9b86-1d77-4580-8e81-19ea410c5821)
 
 #### Profile management<br/>
 
-![ProfilePage](https://github.com/user-attachments/assets/9a366bb2-bb6a-4b5c-9f04-c06ac95ea591)
+![mypage](https://github.com/user-attachments/assets/f618f5b2-e6cb-4d51-a421-a8478fe7ea5d)
+![editprofile](https://github.com/user-attachments/assets/1b110709-6d1d-42fe-a76d-32852237f577)
 
 ### Rooms
 
 #### Hotel Room Browsing & Search<br/>
 
-![Room](https://github.com/user-attachments/assets/8568ee51-918e-4c6a-825e-d0769e29d5f5)
+![our rooms](https://github.com/user-attachments/assets/3d13db68-ba6b-44f2-8ebf-e69dfbcda6c8)
+![room detail](https://github.com/user-attachments/assets/cf69ca67-c3b9-4d5c-8fea-fbe675ed7576)
+![roomdetail2](https://github.com/user-attachments/assets/0a85df1e-13a0-40dc-b591-16be93d9efc4)
 
 ### Admin
 
-#### Room management (CRUD)<br/>
+![Admin booking detail](https://github.com/user-attachments/assets/5c8134a8-7279-40c0-bf9e-eb0193b7155d)
+![admin](https://github.com/user-attachments/assets/1eacce6e-a02f-444a-aa0e-241f0dbc7265)
+![allusers](https://github.com/user-attachments/assets/1de128ba-54ad-452d-bcbf-f8326fd0a4fb)
+![room manage](https://github.com/user-attachments/assets/b3dc1124-3c21-4a82-aea8-a48d0243ae52)
 
-![AdminAddRoom](https://github.com/user-attachments/assets/e93836cb-ec0c-4ec9-9567-72ced7d693c2)
-![AdminEditRoom](https://github.com/user-attachments/assets/0ac80ad3-29d3-486a-aaab-24734bdf74c6)
-
-#### Booking management<br/>
-
-![AdminManageBooking](https://github.com/user-attachments/assets/a09c7da4-2cf4-48bb-9018-13851ca73080)
-
-#### User management<br/>
-
-![AdminManageUser](https://github.com/user-attachments/assets/9a366bb2-bb6a-4b5c-9f04-c06ac95ea591)
 
 ## Tech Stack 💻
 
@@ -71,6 +62,7 @@ A full-stack hotel booking application that enables room reservations and manage
 - Material-UI
 - Axios
 - CSS3
+- EmailJS
 
 ### Deployment
 
@@ -132,9 +124,8 @@ API documentation is available through Swagger UI: http://localhost:4040/swagger
 
 ## Todo
 
-- [ ] Implement email functionality
-- [ ] Implement send message to user in admin dashboard
-- [ ] Implement achievement system
+- [x] Implement email functionality
+- [x] Implement achievement system
 - [ ] Implement payment system
 - [ ] Implement review system
 - [ ] Implement chat system
